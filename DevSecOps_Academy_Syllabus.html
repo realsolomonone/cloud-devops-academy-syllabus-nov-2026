@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DevSecOps Academy - Ship what you can defend</title>
+<style>
+  :root {
+    --crimson: #a51c30;
+    --ink: #1c1917;
+    --paper: #f6f3ee;
+    --body: #3f3a34;
+    --muted: #6b645b;
+    --rule: #e3dbd0;
+    --black: #141211;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Avenir Next", "Avenir", "Helvetica Neue", sans-serif;
+    font-size: 18px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  .serif { font-family: "Iowan Old Style", Palatino, "Palatino Linotype", serif; }
+  header.top {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding: 16px 40px;
+    background: rgba(246, 243, 238, 0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .brand {
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--crimson);
+  }
+  nav { display: flex; gap: 22px; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  nav a:hover { color: var(--ink); }
+  .hero {
+    background: var(--black);
+    color: #f7f4ef;
+    min-height: 88vh;
+    padding: 10vh 8vw 8vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .hero:before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 10px;
+    background: var(--crimson);
+  }
+  .hero h1 {
+    margin: auto 0 0;
+    font-family: "Iowan Old Style", Palatino, serif;
+    font-weight: 400;
+    font-size: clamp(56px, 8vw, 108px);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+  }
+  .hero .sub {
+    margin-top: 28px;
+    max-width: 36rem;
+    font-family: "Iowan Old Style", Palatino, serif;
+    font-style: italic;
+    font-size: clamp(20px, 2vw, 28px);
+    color: #e7d3d6;
+  }
+  .hero .rule { width: 72px; height: 3px; background: var(--crimson); margin: 32px 0 18px; }
+  .hero .path { max-width: 640px; color: #c8beb4; font-size: 16px; line-height: 1.55; }
+  main { max-width: 1080px; margin: 0 auto; padding: 72px 32px 40px; }
+  section { padding: 28px 0 56px; }
+  h2 {
+    font-family: "Iowan Old Style", Palatino, serif;
+    font-weight: 400;
+    font-size: clamp(36px, 4vw, 52px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px;
+  }
+  .kicker {
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--crimson);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  p.lead { font-size: 20px; line-height: 1.45; max-width: 740px; color: var(--body); }
+  .three, .four, .gates, .outcomes, .specs { display: grid; gap: 28px 32px; }
+  .three { grid-template-columns: repeat(3, 1fr); margin-top: 36px; }
+  .four { grid-template-columns: repeat(4, 1fr); margin-top: 28px; }
+  .outcomes, .specs { grid-template-columns: 1fr 1fr; }
+  .gates { grid-template-columns: repeat(3, 1fr); margin-top: 12px; }
+  .card h3, .month h3, .gate h3 {
+    font-family: "Iowan Old Style", Palatino, serif;
+    font-weight: 400;
+    font-size: 28px;
+    margin: 6px 0 8px;
+  }
+  .idx { font-family: "Iowan Old Style", Palatino, serif; color: var(--crimson); }
+  .card p, .month li, .gate p, .outcome, .spec p { color: var(--body); font-size: 16px; line-height: 1.45; }
+  .month { border-top: 2px solid var(--crimson); padding-top: 14px; }
+  .month ol { list-style: none; padding: 0; margin: 12px 0 0; }
+  .month li { padding: 8px 0; border-top: 1px solid var(--rule); }
+  .month li span { display: block; color: var(--crimson); font-family: "Iowan Old Style", Palatino, serif; }
+  .gate { border-top: 2px solid var(--crimson); padding-top: 12px; }
+  .gate .when { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--crimson); font-weight: 600; }
+  .outcome, .spec {
+    display: grid;
+    grid-template-columns: 42px 1fr;
+    gap: 8px;
+    padding: 14px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .week {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 8px 18px;
+    padding: 22px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .week h3 { font-family: "Iowan Old Style", Palatino, serif; font-weight: 400; font-size: 26px; margin: 0 0 6px; }
+  .week p { margin: 0; color: var(--body); font-size: 16px; }
+  .week .ev { margin-top: 8px; color: var(--ink); }
+  .week .ev b {
+    font-weight: 600;
+    color: var(--crimson);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-right: 8px;
+  }
+  .wn { font-family: "Iowan Old Style", Palatino, serif; font-size: 22px; color: var(--crimson); }
+  table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+  th {
+    text-align: left;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--crimson);
+    font-weight: 600;
+    padding: 0 16px 10px 0;
+    border-bottom: 2px solid var(--crimson);
+  }
+  td { padding: 14px 16px 14px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  td.w { font-family: "Iowan Old Style", Palatino, serif; font-size: 28px; color: var(--crimson); width: 90px; }
+  .split { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 48px; }
+  .stack h4 {
+    margin: 14px 0 2px;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--crimson);
+  }
+  .stack p { margin: 0; font-size: 16px; }
+  footer.colophon {
+    border-top: 1px solid var(--rule);
+    padding: 28px 40px 48px;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  @media (max-width: 860px) {
+    header.top { padding: 14px 18px; flex-wrap: wrap; }
+    nav { display: none; }
+    .hero { display: block; padding: 12vh 22px 48px; min-height: auto; width: auto; }
+    html, body { overflow-x: hidden; }
+    .hero h1 { font-size: 46px; }
+    .hero .sub, .hero .path { font-size: 18px; max-width: 100%; }
+    main { width: 100%; }
+    h2, p, .lead { overflow-wrap: break-word; }
+    h2 { font-size: 32px; max-width: 11em; }
+    .lead, p.lead { font-size: 16px; }
+    main { padding: 40px 20px 20px; }
+    .three, .four, .gates, .outcomes, .specs, .split { grid-template-columns: 1fr; }
+    .week { grid-template-columns: 40px 1fr; }
+    footer.colophon { flex-direction: column; padding: 24px 20px 40px; }
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#top">DevSecOps Academy</a>
+  <nav>
+    <a href="#charge">Charge</a>
+    <a href="#weeks">Weeks</a>
+    <a href="#gates">Gates</a>
+    <a href="#syllabus">Syllabus</a>
+    <a href="#capstone">Capstone</a>
+    <a href="#assessment">Assessment</a>
+  </nav>
+</header>
+
+<section class="hero" id="top">
+  <p class="brand">DevSecOps Academy</p>
+  <h1>Ship what you<br>can defend.</h1>
+  <p class="sub">A sixteen-week syllabus<br>in cloud, delivery, and security.</p>
+  <div class="rule"></div>
+  <p class="path">Linux, Git, and GitLab CI.<br>AWS, Terraform, and Ansible.<br>Docker, Kubernetes, and Argo CD.<br>Scans, Prometheus, Alertmanager,<br>Grafana, and ELK.</p>
+</section>
+
+<main>
+  <section id="charge">
+    <p class="kicker">The charge</p>
+    <h2>Build nothing you cannot scan, release, and explain.</h2>
+    <p class="lead">Graduates leave with a platform they can defend: infrastructure in code, a pipeline that stops when a scan fails, a Kubernetes release, and the signals that say whether it is healthy.</p>
+    <div class="three">
+      <article class="card"><div class="idx">01</div><h3>Practice</h3><p>Seventy percent of the hours are labs, projects, and review. Three sessions a week. Two to four hours between them.</p></article>
+      <article class="card"><div class="idx">02</div><h3>Judgement</h3><p>A working demo is not enough. Cost, failure, access, and the scan result are graded with the feature.</p></article>
+      <article class="card"><div class="idx">03</div><h3>Proof</h3><p>The capstone is a system another engineer could operate from the runbook, without a private explanation.</p></article>
+    </div>
+    <p class="lead" style="margin-top:36px;">For beginners with sound computer skills, students, developers, and engineers moving into this work. Basic Linux is useful. A short orientation is provided before Week 1.</p>
+  </section>
+
+  <section id="outcomes">
+    <p class="kicker">Outcomes</p>
+    <h2>A graduate can</h2>
+    <div class="outcomes">
+      <div class="outcome"><span class="idx">01</span><div>Administer Linux and find a broken service from the logs, the port, and the firewall.</div></div>
+      <div class="outcome"><span class="idx">02</span><div>Ship through Git and GitLab, and stop a secret before it merges.</div></div>
+      <div class="outcome"><span class="idx">03</span><div>Build a Docker image, scan it, and refuse to publish what the scan condemns.</div></div>
+      <div class="outcome"><span class="idx">04</span><div>Provision AWS with least privilege and say what it costs.</div></div>
+      <div class="outcome"><span class="idx">05</span><div>Write that infrastructure in Terraform and scan the plan before apply.</div></div>
+      <div class="outcome"><span class="idx">06</span><div>Configure the host with Ansible so a second run changes nothing.</div></div>
+      <div class="outcome"><span class="idx">07</span><div>Release to Kubernetes through GitLab CI and Argo CD, and roll a bad release back.</div></div>
+      <div class="outcome"><span class="idx">08</span><div>Page on a real signal with Prometheus and Alertmanager, and investigate it in ELK.</div></div>
+    </div>
+  </section>
+
+  <section id="weeks">
+    <p class="kicker">Sixteen weeks</p>
+    <h2>The order of the work</h2>
+    <p class="lead">The machine and the repository come first. Then the account, the image, the pipeline, the cluster, and the signals.</p>
+    <div class="four">
+      <article class="month"><div class="idx">Month 01</div><h3>Foundations</h3><ol>
+        <li><span>01</span>Linux and the shell</li>
+        <li><span>02</span>Networking and SSH</li>
+        <li><span>03</span>Git and GitLab</li>
+        <li><span>04</span>AWS fundamentals</li>
+      </ol></article>
+      <article class="month"><div class="idx">Month 02</div><h3>Provision</h3><ol>
+        <li><span>05</span>Docker</li>
+        <li><span>06</span>AWS architecture</li>
+        <li><span>07</span>Terraform</li>
+        <li><span>08</span>Ansible</li>
+      </ol></article>
+      <article class="month"><div class="idx">Month 03</div><h3>Delivery</h3><ol>
+        <li><span>09</span>GitLab CI</li>
+        <li><span>10</span>Kubernetes</li>
+        <li><span>11</span>Cluster operations</li>
+        <li><span>12</span>The secure pipeline</li>
+      </ol></article>
+      <article class="month"><div class="idx">Month 04</div><h3>Operations</h3><ol>
+        <li><span>13</span>Metrics and alerts</li>
+        <li><span>14</span>Logging with ELK</li>
+        <li><span>15</span>Argo CD</li>
+        <li><span>16</span>Capstone</li>
+      </ol></article>
+    </div>
+  </section>
+
+  <section id="gates">
+    <p class="kicker">Security</p>
+    <h2>Six gates. A red gate stops the merge.</h2>
+    <div class="gates">
+      <article class="gate"><h3>Secrets</h3><div class="when">Week 03</div><p>A credential in the diff never reaches the default branch.</p></article>
+      <article class="gate"><h3>Dependencies</h3><div class="when">Week 09</div><p>A known flaw in a library fails the pipeline.</p></article>
+      <article class="gate"><h3>Static analysis</h3><div class="when">Week 12</div><p>SAST reviews the code on the merge, not after the incident.</p></article>
+      <article class="gate"><h3>Images</h3><div class="when">Weeks 05 and 12</div><p>The container is scanned before the registry will keep it.</p></article>
+      <article class="gate"><h3>Infrastructure</h3><div class="when">Week 07</div><p>Terraform is scanned before anyone is allowed to apply.</p></article>
+      <article class="gate"><h3>DAST and the record</h3><div class="when">Week 12</div><p>The running application is tested in a lower environment. The build records what shipped.</p></article>
+    </div>
+  </section>
+
+  <section id="syllabus">
+    <p class="kicker">The syllabus</p>
+    <h2>Foundations</h2>
+    <article class="week"><div class="wn">01</div><div><h3>Linux and the shell</h3><p>The filesystem, users, permissions, and sudo as controls. Packages, processes, systemd, logs, and Bash.</p><p class="ev"><b>Evidence</b>A least-privilege baseline and a scripted health report.</p></div></article>
+    <article class="week"><div class="wn">02</div><div><h3>Networking and SSH</h3><p>Addressing, DNS, TLS, firewalls, keys, patches, and a host baseline of ports and failed logins.</p><p class="ev"><b>Evidence</b>Key-based access between two hosts, and a troubleshooting runbook.</p></div></article>
+    <article class="week"><div class="wn">03</div><div><h3>Git, GitLab, and secret scanning</h3><p>Branches, merge requests, protected branches, and a scanner that stops a credential before it merges.</p><p class="ev"><b>Evidence</b>A reviewed project, and a planted secret that does not land.</p></div></article>
+    <article class="week"><div class="wn">04</div><div><h3>AWS fundamentals</h3><p>IAM, MFA, EC2, S3, VPC, security groups, budgets, tagging, and CloudTrail.</p><p class="ev"><b>Evidence</b>A locked-down web server and an S3 site, with the security and cost written down.</p></div></article>
+
+    <h2 style="margin-top:64px;">Provision</h2>
+    <article class="week"><div class="wn">05</div><div><h3>Docker, and the image scan</h3><p>Multi-stage builds, Compose, volumes, health checks, and a scan whose critical findings are defects.</p><p class="ev"><b>Evidence</b>An application and database, and a scan report with the serious findings fixed.</p></div></article>
+    <article class="week"><div class="wn">06</div><div><h3>AWS architecture</h3><p>Auto Scaling, a load balancer, Lambda, CloudWatch, private subnets, and secrets management.</p><p class="ev"><b>Evidence</b>A highly available sample, and a Lambda with an alarm.</p></div></article>
+    <article class="week"><div class="wn">07</div><div><h3>Terraform, scanned before apply</h3><p>Workflow, state, modules, environments, and an infrastructure scan of the plan.</p><p class="ev"><b>Evidence</b>A modular network and compute stack, applied only after the scan, then destroyed.</p></div></article>
+    <article class="week"><div class="wn">08</div><div><h3>Ansible</h3><p>Roles, Vault, idempotence, and a hardening pass. Terraform builds the machine. Ansible configures it.</p><p class="ev"><b>Evidence</b>Nginx from a role. The second run changes nothing.</p></div></article>
+
+    <h2 style="margin-top:64px;">Delivery</h2>
+    <article class="week"><div class="wn">09</div><div><h3>GitLab CI, fail closed</h3><p>Stages, runners, a registry, rollback, and pipelines that fail on secret and dependency scans.</p><p class="ev"><b>Evidence</b>A planted secret blocks the merge. A bad release is rolled back.</p></div></article>
+    <article class="week"><div class="wn">10</div><div><h3>Kubernetes</h3><p>Pods, Deployments, Services, probes, and a local cluster. The first deploy runs as non-root.</p><p class="ev"><b>Evidence</b>A multi-replica app, then a broken rollout read from events and logs.</p></div></article>
+    <article class="week"><div class="wn">11</div><div><h3>Cluster operations</h3><p>Ingress, storage, Helm, network policy, the autoscaler, security contexts, and RBAC.</p><p class="ev"><b>Evidence</b>A Helm release running as a restricted service account.</p></div></article>
+    <article class="week"><div class="wn">12</div><div><h3>The secure pipeline</h3><p>SAST, dependencies, secrets, images, infrastructure, a DAST pass in test, and a software bill of materials. Findings are fixed or explicitly accepted.</p><p class="ev"><b>Evidence</b>A planted finding stops the pipeline until the fix is in the history.</p></div></article>
+
+    <h2 style="margin-top:64px;">Operations</h2>
+    <article class="week"><div class="wn">13</div><div><h3>Prometheus, Grafana, Alertmanager</h3><p>Scrape, PromQL, dashboards, and Alertmanager routing, grouping, and silences. One route is repeated login failure.</p><p class="ev"><b>Evidence</b>Tested routes for CPU, disk, downtime, and authentication failure.</p></div></article>
+    <article class="week"><div class="wn">14</div><div><h3>Logging with ELK</h3><p>Structured logs, Elasticsearch, Kibana, Filebeat or Logstash, retention, and redaction.</p><p class="ev"><b>Evidence</b>An investigation that names an error or an authentication failure.</p></div></article>
+    <article class="week"><div class="wn">15</div><div><h3>GitOps with Argo CD</h3><p>Desired state, sync, drift, promotion, and rollback. A manifest still comes from a pipeline that passed.</p><p class="ev"><b>Evidence</b>Deployed from Git, drift corrected, then promoted and rolled back.</p></div></article>
+    <article class="week"><div class="wn">16</div><div><h3>Capstone</h3><p>Architecture, security, cost, an incident, and a handover. The review asks what the last scan refused to ship.</p><p class="ev"><b>Evidence</b>The platform, the runbook, and a live demonstration.</p></div></article>
+  </section>
+
+  <section id="capstone">
+    <p class="kicker">Week 16</p>
+    <h2>The capstone</h2>
+    <p class="lead">A task manager, an inventory service, a student portal, or an API. The standard is a system a stranger could operate.</p>
+    <div class="specs">
+      <div class="spec"><span class="idx">01</span><p><strong>Source.</strong> GitLab, with a branching model and merge requests.</p></div>
+      <div class="spec"><span class="idx">02</span><p><strong>Cloud.</strong> Terraform on AWS. Least privilege, tags, and a cost note.</p></div>
+      <div class="spec"><span class="idx">03</span><p><strong>Pipeline.</strong> GitLab CI tests, builds, scans, and publishes. A failed gate blocks the merge.</p></div>
+      <div class="spec"><span class="idx">04</span><p><strong>Cluster.</strong> Kubernetes with probes, limits, and RBAC. EKS only if the budget allows.</p></div>
+      <div class="spec"><span class="idx">05</span><p><strong>Release.</strong> Argo CD from Git. Promotion and rollback, shown.</p></div>
+      <div class="spec"><span class="idx">06</span><p><strong>Signals.</strong> Prometheus, Grafana, Alertmanager, and an investigation in ELK.</p></div>
+      <div class="spec"><span class="idx">07</span><p><strong>Gates.</strong> A planted finding blocked the pipeline. The fix is in the history. An SBOM is kept.</p></div>
+      <div class="spec"><span class="idx">08</span><p><strong>Record.</strong> Diagram, README, findings, runbook, and a live demonstration.</p></div>
+    </div>
+    <p class="lead" style="margin-top:28px;">GitLab CI is the pipeline. Secret detection may be GitLab's or gitleaks. Images and Terraform may be scanned with Trivy or Checkov. SAST may be GitLab or Semgrep. The DAST exercise may use OWASP ZAP against the test environment. The point is the gate, not the logo.</p>
+  </section>
+
+  <section id="assessment">
+    <p class="kicker">Assessment</p>
+    <h2>What is graded</h2>
+    <table>
+      <thead><tr><th>Weight</th><th>Assessment</th><th>What is judged</th></tr></thead>
+      <tbody>
+        <tr><td class="w">25%</td><td>Weekly labs</td><td>The work of the week, including the troubleshooting.</td></tr>
+        <tr><td class="w">20%</td><td>Projects and review</td><td>Deliverables, the writing, and the hygiene of the Git history.</td></tr>
+        <tr><td class="w">15%</td><td>Mid-programme</td><td>Docker, AWS, Terraform, Ansible, and a pipeline that scans.</td></tr>
+        <tr><td class="w">15%</td><td>Security and signals</td><td>Gates that fired, a fix, dashboards, logs, and alerts.</td></tr>
+        <tr><td class="w">25%</td><td>Capstone</td><td>Architecture, automation, security, cost, and the demonstration.</td></tr>
+      </tbody>
+    </table>
+    <div class="four" style="margin-top:36px;">
+      <article><div class="idx">Session 1</div><h3 style="font-family:'Iowan Old Style',Palatino,serif;font-weight:400;font-size:24px;">The idea</h3><p>The concept, a demonstration, and the decision the lab will force.</p></article>
+      <article><div class="idx">Session 2</div><h3 style="font-family:'Iowan Old Style',Palatino,serif;font-weight:400;font-size:24px;">The lab</h3><p>Guided practice, with checkpoints where the system is expected to break.</p></article>
+      <article><div class="idx">Session 3</div><h3 style="font-family:'Iowan Old Style',Palatino,serif;font-weight:400;font-size:24px;">The review</h3><p>Project work, someone else's change, and a short presentation.</p></article>
+      <article><div class="idx">Between</div><h3 style="font-family:'Iowan Old Style',Palatino,serif;font-weight:400;font-size:24px;">The hours</h3><p>Two to four hours for practice, writing, and the portfolio.</p></article>
+    </div>
+  </section>
+
+  <section id="studio">
+    <p class="kicker">The studio</p>
+    <h2>How the lab is run</h2>
+    <div class="split">
+      <div>
+        <div class="outcome"><span class="idx">01</span><div>16 GB of memory once local Kubernetes begins. 8 GB is the floor.</div></div>
+        <div class="outcome"><span class="idx">02</span><div>Linux by virtual machine, WSL2, or a dedicated machine. GitLab and a registry are provided.</div></div>
+        <div class="outcome"><span class="idx">03</span><div>AWS accounts use MFA, a budget alert, least privilege, and teardown after every lab.</div></div>
+        <div class="outcome"><span class="idx">04</span><div>Kubernetes runs on kind or Minikube. EKS is reserved for when the budget allows.</div></div>
+        <div class="outcome"><span class="idx">05</span><div>Credentials never go into Git. The scanner catches the mistake. It does not excuse it.</div></div>
+      </div>
+      <div class="stack">
+        <h4>Systems</h4><p>Linux, Bash, SSH.</p>
+        <h4>Cloud</h4><p>IAM, VPC, EC2, S3, Lambda, CloudWatch.</p>
+        <h4>Automation</h4><p>Terraform and Ansible.</p>
+        <h4>Delivery</h4><p>Docker, GitLab CI, Kubernetes, Helm, Argo CD.</p>
+        <h4>Gates</h4><p>Secrets, dependencies, SAST, images, infrastructure, DAST, SBOM.</p>
+        <h4>Signals</h4><p>Prometheus, Alertmanager, Grafana, ELK.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="colophon">
+  <span>DevSecOps Academy</span>
+  <span>Sixteen-week syllabus</span>
+  <span>2026</span>
+</footer>
+</body>
+</html>

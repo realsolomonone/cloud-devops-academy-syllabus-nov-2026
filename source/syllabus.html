@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Cloud &amp; DevOps Academy — The Engineering Programme</title>
+<title>DevSecOps Academy - Ship what you can defend</title>
 <style>
   @page { size: letter; margin: 0; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
-    background: #cfc8bc;
-    color: #1c2430;
+    background: #d9d3c8;
+    color: #1c1917;
     font-family: "Avenir Next", "Avenir", "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
@@ -17,7 +17,7 @@
     height: 11in;
     position: relative;
     overflow: hidden;
-    background: #f7f3ec;
+    background: #f6f3ee;
     page-break-after: always;
     break-after: page;
     -webkit-print-color-adjust: exact;
@@ -25,526 +25,281 @@
   }
   .sheet:last-child { page-break-after: auto; break-after: auto; }
   @media screen {
-    body { padding: 28px 0 40px; }
-    .sheet { margin: 0 auto 28px; box-shadow: 0 18px 50px rgba(20, 16, 10, 0.18); }
+    body { padding: 28px 0 48px; }
+    .sheet { margin: 0 auto 28px; box-shadow: 0 16px 40px rgba(20,16,12,0.16); }
   }
+  .serif { font-family: "Iowan Old Style", Palatino, serif; }
 
-  .serif { font-family: "Iowan Old Style", "Palatino", "Palatino Linotype", serif; }
-  .italic { font-family: "Iowan Old Style", Palatino, serif; font-style: italic; }
-
-  /* ---------- cover ---------- */
-  .cover { background: #101820; color: #f3eee6; }
-  .frame {
+  .cover { background: #141211; color: #f7f4ef; }
+  .bar {
     position: absolute;
-    inset: 0.38in;
-    border: 1px solid rgba(212, 184, 122, 0.55);
+    left: 0; top: 0; bottom: 0;
+    width: 0.18in;
+    background: #a51c30;
   }
-  .cover-inner {
-    position: absolute;
-    inset: 0.72in 0.78in 0.68in;
-    display: flex;
-    flex-direction: column;
-  }
+  .cover-inner { position: absolute; inset: 0.72in 0.72in 0.62in 0.78in; display: flex; flex-direction: column; }
   .eyebrow {
     font-size: 11px;
     font-weight: 500;
-    letter-spacing: 0.28em;
+    letter-spacing: 0.26em;
     text-transform: uppercase;
-    color: #e4cb96;
-  }
-  .cover-rule {
-    width: 42px;
-    height: 1px;
-    background: #e4cb96;
-    margin: 22px 0 0;
+    color: #c8beb4;
   }
   .cover h1 {
-    margin-top: 1.55in;
+    margin-top: 1.7in;
     font-family: "Iowan Old Style", Palatino, serif;
     font-weight: 400;
-    font-size: 62px;
+    font-size: 64px;
     line-height: 0.92;
     letter-spacing: -0.02em;
-    color: #f6f1e8;
+    color: #f7f4ef;
   }
   .cover .series {
-    margin-top: 22px;
+    margin-top: 28px;
     font-family: "Iowan Old Style", Palatino, serif;
     font-style: italic;
     font-size: 22px;
-    color: #e4cb96;
+    color: #e7d3d6;
   }
-  .cover .deck {
-    margin-top: 18px;
-    max-width: 5.6in;
-    font-size: 15px;
-    line-height: 1.45;
-    font-weight: 400;
-    color: rgba(243, 238, 230, 0.78);
-  }
-  .cover-bottom { margin-top: auto; }
-  .path-label {
-    font-size: 10px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: #e4cb96;
-    font-weight: 500;
-  }
-  .path {
-    margin-top: 12px;
-    font-size: 13.5px;
-    line-height: 1.55;
-    color: rgba(243, 238, 230, 0.88);
+  .crimson-rule { width: 72px; height: 3px; background: #a51c30; margin-top: 28px; }
+  .cover .path {
+    margin-top: 22px;
+    max-width: 6.2in;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #c8beb4;
   }
   .cover-meta {
+    margin-top: auto;
     display: flex;
     justify-content: space-between;
-    margin-top: 28px;
     padding-top: 14px;
-    border-top: 1px solid rgba(212, 184, 122, 0.35);
+    border-top: 1px solid rgba(197, 28, 48, 0.55);
     font-size: 10.5px;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: rgba(243, 238, 230, 0.62);
+    color: #c8beb4;
   }
 
-  /* ---------- interior chrome ---------- */
-  .pad { padding: 0.58in 0.68in 0.5in; height: 11in; }
+  .pad { padding: 0.55in 0.66in 0.48in 0.72in; height: 11in; }
   .runhead {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
     padding-bottom: 8px;
-    border-bottom: 1px solid #d9c7a4;
-    font-size: 9.5px;
-    letter-spacing: 0.18em;
+    border-bottom: 1px solid #e3dbd0;
+    font-size: 10px;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: #8a7350;
-    font-weight: 500;
+    color: #a51c30;
+    font-weight: 600;
+  }
+  .runhead span:last-child { color: #6b645b; font-weight: 500; }
+  .spine {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 0.1in;
+    background: #a51c30;
   }
   .folio {
     position: absolute;
-    left: 0.68in;
-    right: 0.68in;
-    bottom: 0.32in;
+    left: 0.72in; right: 0.66in; bottom: 0.32in;
     display: flex;
     justify-content: space-between;
     font-size: 10px;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: #9a8b74;
+    color: #6b645b;
   }
   .folio b {
     font-family: "Iowan Old Style", Palatino, serif;
     font-weight: 400;
-    letter-spacing: 0.08em;
-    color: #1c2430;
+    letter-spacing: 0;
+    text-transform: none;
+    color: #a51c30;
+    font-size: 13px;
   }
-
   h2 {
     font-family: "Iowan Old Style", Palatino, serif;
     font-weight: 400;
     font-size: 34px;
+    line-height: 1;
     letter-spacing: -0.02em;
-    line-height: 1;
-    color: #141c27;
+    margin-top: 18px;
+  }
+  .lede { margin-top: 12px; font-size: 13.5px; line-height: 1.45; color: #3f3a34; max-width: 6.8in; }
+  .label {
     margin-top: 22px;
-  }
-  .lede {
-    margin-top: 12px;
-    max-width: 6.7in;
-    font-size: 13.5px;
-    line-height: 1.45;
-    color: #3d4652;
-  }
-
-  /* ---------- programme ---------- */
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-    margin-top: 26px;
-    border-top: 1px solid #e4d8c6;
-    border-bottom: 1px solid #e4d8c6;
-  }
-  .stat { padding: 14px 16px 14px 0; }
-  .stat + .stat { border-left: 1px solid #e4d8c6; padding-left: 16px; }
-  .stat .n {
-    font-family: "Iowan Old Style", Palatino, serif;
-    font-size: 26px;
-    color: #141c27;
-    line-height: 1;
-  }
-  .stat .l {
-    margin-top: 4px;
-    font-size: 11px;
-    line-height: 1.3;
-    color: #6a6258;
-  }
-  .block-label {
-    margin-top: 26px;
     font-size: 10px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: #8a7350;
+    color: #a51c30;
     font-weight: 600;
   }
-  .outcomes {
-    margin-top: 10px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 28px;
-  }
+  .pillars { margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; }
+  .pillars h3 { font-family: "Iowan Old Style", Palatino, serif; font-weight: 400; font-size: 20px; margin: 4px 0; }
+  .pillars p { font-size: 12.5px; line-height: 1.4; color: #3f3a34; }
+  .num { font-family: "Iowan Old Style", Palatino, serif; color: #a51c30; font-size: 14px; }
+  .outcomes { margin-top: 8px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 26px; }
   .outcome {
     display: grid;
     grid-template-columns: 28px 1fr;
     gap: 8px;
-    padding: 9px 0;
-    border-top: 1px solid #eadfce;
+    padding: 8px 0;
+    border-top: 1px solid #e3dbd0;
     font-size: 12.5px;
     line-height: 1.35;
-    color: #2a3340;
   }
-  .outcome span {
-    font-family: "Iowan Old Style", Palatino, serif;
-    color: #8a7350;
-    font-size: 13px;
-  }
-  .note {
-    margin-top: 18px;
-    font-size: 12.5px;
-    line-height: 1.45;
-    color: #4a433b;
-  }
-
-  /* ---------- arc ---------- */
-  .months { margin-top: 22px; }
+  .months { margin-top: 16px; }
   .month-row {
     display: grid;
-    grid-template-columns: 2.15in 1fr;
-    gap: 18px;
-    padding: 16px 0 14px;
-    border-top: 1px solid #e3d5c0;
+    grid-template-columns: 1.9in 1fr;
+    gap: 12px;
+    padding: 12px 0;
+    border-top: 1px solid #e3dbd0;
   }
-  .month-row:last-child { border-bottom: 1px solid #e3d5c0; }
-  .m-kicker {
-    font-size: 10px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: #8a7350;
-    font-weight: 600;
-  }
-  .m-name {
-    margin-top: 3px;
-    font-family: "Iowan Old Style", Palatino, serif;
-    font-size: 26px;
-    line-height: 1;
-    color: #141c27;
-  }
-  .m-sum {
-    margin-top: 6px;
-    font-size: 12px;
-    line-height: 1.35;
-    color: #5c564e;
-  }
-  .weeks4 {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    align-content: center;
-  }
-  .wchip .num {
-    font-family: "Iowan Old Style", Palatino, serif;
-    font-size: 13px;
-    color: #8a7350;
-  }
-  .wchip .t {
-    margin-top: 2px;
-    font-size: 12.5px;
-    line-height: 1.25;
-    color: #1c2430;
-    font-weight: 500;
-  }
-  .thesis {
-    margin-top: 20px;
-    padding-top: 14px;
-    font-size: 13px;
-    line-height: 1.45;
-    color: #3d4652;
-    max-width: 6.9in;
-  }
-
-  /* ---------- week pages ---------- */
-  .month-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-top: 16px;
-  }
-  .month-head h2 { margin-top: 4px; font-size: 32px; }
-  .range {
-    font-family: "Iowan Old Style", Palatino, serif;
-    font-size: 18px;
-    color: #8a7350;
-  }
+  .month-row:last-child { border-bottom: 1px solid #e3dbd0; }
+  .m-name { font-family: "Iowan Old Style", Palatino, serif; font-size: 24px; line-height: 1; margin-top: 2px; }
+  .weeks4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; align-content: center; }
+  .wchip .t { margin-top: 2px; font-size: 12.5px; line-height: 1.25; font-weight: 500; }
+  .gates { margin-top: 8px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px 16px; }
+  .gates div { border-top: 2px solid #a51c30; padding-top: 6px; }
+  .gates strong { display: block; font-size: 13px; font-weight: 600; }
+  .gates span { display: block; margin-top: 2px; font-size: 11.5px; line-height: 1.3; color: #3f3a34; }
   .week {
     display: grid;
-    grid-template-columns: 0.42in 1fr;
-    gap: 8px;
-    padding: 13px 0 12px;
-    border-top: 1px solid #e4d8c6;
+    grid-template-columns: 0.38in 1fr;
+    gap: 6px;
+    padding: 11px 0 10px;
+    border-top: 1px solid #e3dbd0;
   }
-  .weeks .week:last-child { border-bottom: 1px solid #e4d8c6; }
-  .week .wn {
-    font-family: "Iowan Old Style", Palatino, serif;
-    font-size: 18px;
-    color: #8a7350;
-    padding-top: 1px;
-  }
-  .week h3 {
-    font-family: "Iowan Old Style", Palatino, serif;
-    font-weight: 400;
-    font-size: 18px;
-    color: #141c27;
-    letter-spacing: -0.01em;
-  }
-  .skills {
-    margin-top: 4px;
-    font-size: 12.25px;
-    line-height: 1.38;
-    color: #3a424d;
-  }
-  .evidence {
-    margin-top: 6px;
-    font-size: 12px;
-    line-height: 1.35;
-    color: #2c333c;
-  }
+  .weeks .week:last-child { border-bottom: 1px solid #e3dbd0; }
+  .wn { font-family: "Iowan Old Style", Palatino, serif; font-size: 16px; color: #a51c30; }
+  .week h3 { font-family: "Iowan Old Style", Palatino, serif; font-weight: 400; font-size: 17px; }
+  .skills { margin-top: 3px; font-size: 12.25px; line-height: 1.38; color: #3f3a34; }
+  .evidence { margin-top: 5px; font-size: 12px; line-height: 1.35; }
   .evidence em {
     font-style: normal;
-    font-size: 9.5px;
+    font-size: 9px;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: #8a7350;
+    color: #a51c30;
     font-weight: 600;
     margin-right: 6px;
   }
-
-  /* ---------- capstone ---------- */
-  .spec {
-    margin-top: 16px;
-  }
+  .month-head { display: flex; justify-content: space-between; align-items: flex-end; }
+  .month-head h2 { margin-top: 4px; }
+  .range { font-family: "Iowan Old Style", Palatino, serif; font-style: italic; color: #a51c30; font-size: 16px; }
   .spec-row {
     display: grid;
-    grid-template-columns: 0.38in 1.35in 1fr;
+    grid-template-columns: 0.36in 1.25in 1fr;
     gap: 8px;
-    padding: 8px 0;
-    border-top: 1px solid #e4d8c6;
+    padding: 7px 0;
+    border-top: 1px solid #e3dbd0;
     font-size: 12.5px;
     line-height: 1.35;
-    color: #2a3340;
   }
-  .spec-row:last-child { border-bottom: 1px solid #e4d8c6; }
-  .spec-row .n {
-    font-family: "Iowan Old Style", Palatino, serif;
-    color: #8a7350;
-  }
-  .spec-row strong {
-    font-weight: 600;
-    color: #141c27;
-  }
-  .aside {
-    margin-top: 16px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 22px;
-  }
-  .aside h4 {
-    font-size: 10px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: #8a7350;
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
-  .aside p { font-size: 12.25px; line-height: 1.4; color: #3a424d; }
-
-  /* ---------- assessment ---------- */
-  table.grade {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 16px;
-  }
+  .spec-row:last-child { border-bottom: 1px solid #e3dbd0; }
+  .spec-row strong { font-weight: 600; }
+  table.grade { width: 100%; border-collapse: collapse; margin-top: 14px; }
   table.grade th {
     text-align: left;
     font-size: 10px;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: #8a7350;
+    color: #a51c30;
     font-weight: 600;
-    padding: 0 12px 8px 0;
-    border-bottom: 1px solid #cbb892;
+    padding: 0 10px 8px 0;
+    border-bottom: 2px solid #a51c30;
   }
   table.grade td {
-    padding: 9px 12px 9px 0;
-    border-bottom: 1px solid #e4d8c6;
+    padding: 8px 10px 8px 0;
+    border-bottom: 1px solid #e3dbd0;
     font-size: 12.5px;
     line-height: 1.35;
-    color: #2a3340;
     vertical-align: top;
   }
-  table.grade td.w {
-    font-family: "Iowan Old Style", Palatino, serif;
-    font-size: 16px;
-    color: #141c27;
-    width: 0.7in;
-  }
-  .rhythm {
-    margin-top: 22px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
-  }
-  .rhythm h4 {
-    font-family: "Iowan Old Style", Palatino, serif;
-    font-weight: 400;
-    font-size: 15px;
-    color: #141c27;
-    margin-bottom: 4px;
-  }
-  .rhythm p { font-size: 12px; line-height: 1.35; color: #4a433b; }
-  .rhythm .k {
-    font-size: 10px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: #8a7350;
-    font-weight: 600;
-    margin-bottom: 3px;
-  }
-
-  /* ---------- studio ---------- */
-  .split {
-    margin-top: 8px;
-    display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 28px;
-  }
+  table.grade td.w { font-family: "Iowan Old Style", Palatino, serif; font-size: 18px; color: #a51c30; width: 0.7in; }
+  .rhythm { margin-top: 16px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .rhythm h4 { font-family: "Iowan Old Style", Palatino, serif; font-weight: 400; font-size: 16px; margin-bottom: 4px; }
+  .rhythm p { font-size: 12px; line-height: 1.35; color: #3f3a34; }
+  .split { margin-top: 6px; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 26px; }
   .rule-item {
     display: grid;
     grid-template-columns: 22px 1fr;
     gap: 6px;
     padding: 7px 0;
-    border-top: 1px solid #e4d8c6;
+    border-top: 1px solid #e3dbd0;
     font-size: 12.25px;
     line-height: 1.35;
-    color: #2a3340;
   }
-  .rule-item:last-child { border-bottom: 1px solid #e4d8c6; }
-  .rule-item span { font-family: "Iowan Old Style", Palatino, serif; color: #8a7350; }
-  .stack-group { margin-bottom: 11px; }
+  .stack-group { margin-bottom: 9px; }
   .stack-group h4 {
     font-size: 10px;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: #8a7350;
+    color: #a51c30;
     font-weight: 600;
-    margin-bottom: 2px;
   }
-  .stack-group p { font-size: 12.25px; line-height: 1.35; color: #2a3340; }
-  .complete {
-    margin-top: 16px;
-    padding-top: 8px;
-  }
-  .complete-grid {
-    margin-top: 8px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px 22px;
-  }
-  .complete-grid p {
-    font-size: 12.25px;
-    line-height: 1.35;
-    color: #2a3340;
-    padding-top: 7px;
-    border-top: 1px solid #e4d8c6;
-  }
+  .stack-group p { font-size: 12.25px; line-height: 1.35; margin-top: 2px; }
 </style>
 </head>
 <body>
 
-<!-- 1 COVER -->
 <section class="sheet cover">
-  <div class="frame"></div>
+  <div class="bar"></div>
   <div class="cover-inner">
+    <p class="eyebrow">DevSecOps Academy</p>
     <div>
-      <p class="eyebrow">Cloud &amp; DevOps Academy</p>
-      <div class="cover-rule"></div>
+      <h1>Ship what you<br>can defend.</h1>
+      <p class="series">A sixteen-week syllabus in cloud, delivery, and security.</p>
+      <div class="crimson-rule"></div>
+      <p class="path">Linux, Git, and GitLab CI. AWS, Terraform, and Ansible. Docker, Kubernetes, and Argo CD. Secret, dependency, static, image, and infrastructure scans. Prometheus, Alertmanager, Grafana, and ELK.</p>
     </div>
-    <div>
-      <h1>Cloud &amp; DevOps<br>Engineering</h1>
-      <p class="series">The Engineering Programme</p>
-      <p class="deck">A sixteen-week professional syllabus. Infrastructure, delivery, and operations, taught as one system and proved in a capstone.</p>
-    </div>
-    <div class="cover-bottom">
-      <p class="path-label">The path</p>
-      <p class="path">Linux · Git · GitLab CI<br>AWS · Terraform · Ansible · Docker<br>Kubernetes · Argo CD<br>Prometheus · Alertmanager · Grafana · ELK</p>
-      <div class="cover-meta">
-        <span>2026 syllabus</span>
-        <span>Practical standard</span>
-        <span>Capstone assessed</span>
-      </div>
+    <div class="cover-meta">
+      <span>2026 syllabus</span>
+      <span>Practical standard</span>
+      <span>Capstone assessed</span>
     </div>
   </div>
 </section>
 
-<!-- 2 PROGRAMME -->
 <section class="sheet">
+  <div class="spine"></div>
   <div class="pad">
-    <header class="runhead">
-      <span>Cloud &amp; DevOps Academy</span>
-      <span>The Engineering Programme</span>
-    </header>
-    <h2>The programme</h2>
-    <p class="lede">Graduates leave with a platform they can defend: infrastructure in code, a delivery pipeline, a Kubernetes release path, and the signals required to operate it. The work is hands-on from the first week.</p>
-    <div class="stats">
-      <div class="stat"><div class="n">16</div><div class="l">Weeks, one continuous build</div></div>
-      <div class="stat"><div class="n">3</div><div class="l">Instructor-led sessions each week</div></div>
-      <div class="stat"><div class="n">70%</div><div class="l">Labs, projects, and review</div></div>
-      <div class="stat"><div class="n">1</div><div class="l">Capstone, demonstrated live</div></div>
+    <header class="runhead"><span>DevSecOps Academy</span><span>The syllabus</span></header>
+    <h2>Build nothing you cannot scan, release, and explain.</h2>
+    <p class="lede">Graduates leave with a platform they can defend: infrastructure in code, a pipeline that stops when a scan fails, a Kubernetes release, and the signals that say whether it is healthy.</p>
+    <div class="pillars">
+      <div><div class="num">01</div><h3>Practice</h3><p>Seventy percent of the hours are labs, projects, and review. Three instructor-led sessions a week, and two to four hours between them.</p></div>
+      <div><div class="num">02</div><h3>Judgement</h3><p>A working demo is not enough. Cost, failure, access, and the scan result are graded with the feature.</p></div>
+      <div><div class="num">03</div><h3>Proof</h3><p>The capstone is a system another engineer could operate from the runbook, without a private explanation.</p></div>
     </div>
-    <p class="block-label">Who it is for</p>
-    <p class="note" style="margin-top:8px;">Beginners with sound computer skills, IT students, developers, and engineers moving into cloud and DevOps. Basic Linux is useful. Learners who need it receive a short orientation before Week 1. No prior cloud account is required.</p>
-    <p class="block-label">By the end, a graduate can</p>
+    <p class="label">Who it is for</p>
+    <p class="lede" style="margin-top:8px;">Beginners with sound computer skills, students, developers, and engineers moving into cloud and security-minded delivery. Basic Linux is useful. A short orientation is provided before Week 1.</p>
+    <p class="label">A graduate can</p>
     <div class="outcomes">
-      <div class="outcome"><span>01</span><div>Administer Linux and troubleshoot networking, access, and services.</div></div>
-      <div class="outcome"><span>02</span><div>Collaborate in Git and GitLab, and ship work through merge requests.</div></div>
-      <div class="outcome"><span>03</span><div>Build, run, and harden Docker images and Compose applications.</div></div>
-      <div class="outcome"><span>04</span><div>Provision AWS with least privilege and express it in Terraform.</div></div>
-      <div class="outcome"><span>05</span><div>Configure systems with Ansible and keep runs idempotent.</div></div>
-      <div class="outcome"><span>06</span><div>Design GitLab CI pipelines that test, scan, publish, and roll back.</div></div>
-      <div class="outcome"><span>07</span><div>Deploy and operate applications on Kubernetes, including GitOps with Argo CD.</div></div>
-      <div class="outcome"><span>08</span><div>Monitor with Prometheus, Alertmanager, and Grafana, and investigate with ELK.</div></div>
+      <div class="outcome"><span class="num">01</span><div>Administer Linux and find a broken service from the logs, the port, and the firewall.</div></div>
+      <div class="outcome"><span class="num">02</span><div>Ship through Git and GitLab, and stop a secret before it merges.</div></div>
+      <div class="outcome"><span class="num">03</span><div>Build a Docker image, scan it, and refuse to publish what the scan condemns.</div></div>
+      <div class="outcome"><span class="num">04</span><div>Provision AWS with least privilege and say what it costs.</div></div>
+      <div class="outcome"><span class="num">05</span><div>Write that infrastructure in Terraform and scan the plan before apply.</div></div>
+      <div class="outcome"><span class="num">06</span><div>Configure the host with Ansible so a second run changes nothing.</div></div>
+      <div class="outcome"><span class="num">07</span><div>Release to Kubernetes through GitLab CI and Argo CD, and roll a bad release back.</div></div>
+      <div class="outcome"><span class="num">08</span><div>Page on a real signal, and investigate it in the logs.</div></div>
     </div>
   </div>
-  <footer class="folio"><b>02</b><span>Syllabus</span></footer>
+  <footer class="folio"><b>02</b><span>The charge</span></footer>
 </section>
 
-<!-- 3 ARC -->
 <section class="sheet">
+  <div class="spine"></div>
   <div class="pad">
-    <header class="runhead">
-      <span>Cloud &amp; DevOps Academy</span>
-      <span>The Engineering Programme</span>
-    </header>
-    <h2>Sixteen weeks</h2>
-    <p class="lede">Tools are taught in the order a system is built. The machine and the repository come first. Then the cloud account, the container, the pipeline, the cluster, and the signals that show whether it is healthy.</p>
+    <header class="runhead"><span>DevSecOps Academy</span><span>Sixteen weeks</span></header>
+    <h2>The order of the work</h2>
+    <p class="lede">The machine and the repository come first. Then the account, the image, the pipeline, the cluster, and the signals. A scan gate sits on that path from the first repository to the capstone.</p>
     <div class="months">
       <div class="month-row">
-        <div>
-          <div class="m-kicker">Month 01</div>
-          <div class="m-name">Foundations</div>
-          <p class="m-sum">Linux, the network, Git, and a first AWS account used with care.</p>
-        </div>
+        <div><div class="num">Month 01</div><div class="m-name">Foundations</div></div>
         <div class="weeks4">
           <div class="wchip"><div class="num">01</div><div class="t">Linux and the shell</div></div>
           <div class="wchip"><div class="num">02</div><div class="t">Networking and SSH</div></div>
@@ -553,11 +308,7 @@
         </div>
       </div>
       <div class="month-row">
-        <div>
-          <div class="m-kicker">Month 02</div>
-          <div class="m-name">Provision</div>
-          <p class="m-sum">Containers, a resilient AWS design, Terraform, and Ansible.</p>
-        </div>
+        <div><div class="num">Month 02</div><div class="m-name">Provision</div></div>
         <div class="weeks4">
           <div class="wchip"><div class="num">05</div><div class="t">Docker</div></div>
           <div class="wchip"><div class="num">06</div><div class="t">AWS architecture</div></div>
@@ -566,24 +317,16 @@
         </div>
       </div>
       <div class="month-row">
-        <div>
-          <div class="m-kicker">Month 03</div>
-          <div class="m-name">Delivery</div>
-          <p class="m-sum">GitLab CI, Kubernetes, Helm, and security inside the pipeline.</p>
-        </div>
+        <div><div class="num">Month 03</div><div class="m-name">Delivery</div></div>
         <div class="weeks4">
           <div class="wchip"><div class="num">09</div><div class="t">GitLab CI</div></div>
           <div class="wchip"><div class="num">10</div><div class="t">Kubernetes</div></div>
           <div class="wchip"><div class="num">11</div><div class="t">Cluster operations</div></div>
-          <div class="wchip"><div class="num">12</div><div class="t">DevSecOps</div></div>
+          <div class="wchip"><div class="num">12</div><div class="t">The secure pipeline</div></div>
         </div>
       </div>
       <div class="month-row">
-        <div>
-          <div class="m-kicker">Month 04</div>
-          <div class="m-name">Operations</div>
-          <p class="m-sum">Prometheus, Alertmanager, Grafana, ELK, Argo CD, and the capstone.</p>
-        </div>
+        <div><div class="num">Month 04</div><div class="m-name">Operations</div></div>
         <div class="weeks4">
           <div class="wchip"><div class="num">13</div><div class="t">Metrics and alerts</div></div>
           <div class="wchip"><div class="num">14</div><div class="t">Logging with ELK</div></div>
@@ -592,319 +335,236 @@
         </div>
       </div>
     </div>
-    <p class="thesis">Each week ends with evidence: a repository, a working system, and a short account of what was decided. The capstone assembles those pieces into one platform.</p>
+    <p class="label">Six gates. A red gate stops the merge.</p>
+    <div class="gates">
+      <div><strong>Secrets</strong><span>Week 3. A credential in the diff never reaches the default branch.</span></div>
+      <div><strong>Dependencies</strong><span>Week 9. A known flaw in a library fails the pipeline.</span></div>
+      <div><strong>Static analysis</strong><span>Week 12. SAST reviews the code on the merge.</span></div>
+      <div><strong>Images</strong><span>Weeks 5 and 12. The container is scanned before the registry keeps it.</span></div>
+      <div><strong>Infrastructure</strong><span>Week 7. Terraform is scanned before apply.</span></div>
+      <div><strong>DAST and the record</strong><span>Week 12. The running app is tested lower down. The build records what shipped.</span></div>
+    </div>
   </div>
-  <footer class="folio"><b>03</b><span>Syllabus</span></footer>
+  <footer class="folio"><b>03</b><span>Sixteen weeks</span></footer>
 </section>
 
-<!-- 4 MONTH 1 -->
 <section class="sheet">
+  <div class="spine"></div>
   <div class="pad">
-    <header class="runhead"><span>Cloud &amp; DevOps Academy</span><span>Month 01 · Foundations</span></header>
+    <header class="runhead"><span>DevSecOps Academy</span><span>Month 01</span></header>
     <div class="month-head">
-      <div>
-        <p class="block-label" style="margin-top:18px;">Weeks 01 – 04</p>
-        <h2>Foundations</h2>
-      </div>
-      <div class="range">Linux to AWS</div>
+      <div><p class="label" style="margin-top:16px;">Weeks 01 - 04</p><h2>Foundations</h2></div>
+      <div class="range">The machine, then the account</div>
     </div>
-    <div class="weeks" style="margin-top:14px;">
-      <article class="week">
-        <div class="wn">01</div>
-        <div>
-          <h3>Linux administration and the shell</h3>
-          <p class="skills">Distributions, the filesystem, and navigation. Users, groups, permissions, ownership, and sudo. Packages, processes, systemd, logs, and disk. Bash variables, pipes, redirection, grep, find, awk, sed, and scripts.</p>
-          <p class="evidence"><em>Evidence</em>A documented server baseline with least-privilege accounts, and a Bash report of disk, memory, uptime, and service health.</p>
-        </div>
-      </article>
-      <article class="week">
-        <div class="wn">02</div>
-        <div>
-          <h3>Networking, SSH, and troubleshooting</h3>
-          <p class="skills">IP addressing, CIDR, DNS, DHCP, routing, ports, and common protocols. HTTP, TLS, firewalls, and security groups. SSH keys, scp, rsync, curl, ping, traceroute, dig, and ss. Hardening, patching, and secrets hygiene.</p>
-          <p class="evidence"><em>Evidence</em>Two Linux machines with key-based SSH, and a runbook for a deliberately broken web service.</p>
-        </div>
-      </article>
-      <article class="week">
-        <div class="wn">03</div>
-        <div>
-          <h3>Git and GitLab collaboration</h3>
-          <p class="skills">Repositories, commits, branches, merges, tags, reset, revert, and conflicts. GitLab issues, merge requests, review, and protected branches. READMEs, branching policy, semantic versioning, and release notes. YAML as the team’s configuration language.</p>
-          <p class="evidence"><em>Evidence</em>A team project with feature branches, reviews, issues, and tagged releases, plus a small application and its release notes.</p>
-        </div>
-      </article>
-      <article class="week">
-        <div class="wn">04</div>
-        <div>
-          <h3>Cloud concepts and AWS fundamentals</h3>
-          <p class="skills">Service and deployment models, regions, Availability Zones, and shared responsibility. IAM users, roles, policies, MFA, least privilege, and the AWS CLI. EC2, EBS, S3, VPC, subnets, route tables, gateways, and security groups. Budgets, tagging, CloudTrail, and lab cleanup.</p>
-          <p class="evidence"><em>Evidence</em>A web server on EC2 inside a restricted VPC, and a static site on S3 with the security and cost decisions written down.</p>
-        </div>
-      </article>
+    <div class="weeks" style="margin-top:12px;">
+      <article class="week"><div class="wn">01</div><div>
+        <h3>Linux and the shell</h3>
+        <p class="skills">Distributions, the filesystem, and navigation. Users, groups, permissions, ownership, and sudo treated as controls. Packages, processes, systemd, logs, and disk. Bash variables, pipes, grep, find, awk, sed, and scripts.</p>
+        <p class="evidence"><em>Evidence</em>A documented server baseline with least privilege, and a Bash report of disk, memory, uptime, and service health.</p>
+      </div></article>
+      <article class="week"><div class="wn">02</div><div>
+        <h3>Networking, SSH, and troubleshooting</h3>
+        <p class="skills">IP addressing, CIDR, DNS, DHCP, routing, and ports. HTTP, TLS, firewalls, and security groups. SSH keys, scp, rsync, curl, dig, and ss. Patching, and a host baseline of listening ports and failed logins.</p>
+        <p class="evidence"><em>Evidence</em>Two Linux hosts with key-based SSH, and a runbook for a deliberately broken web service.</p>
+      </div></article>
+      <article class="week"><div class="wn">03</div><div>
+        <h3>Git, GitLab, and secret scanning</h3>
+        <p class="skills">Commits, branches, merges, tags, reset, revert, and conflicts. Issues, merge requests, review, and protected branches. READMEs, versioning, and release notes. Secret scanning on the repository, so a credential cannot merge.</p>
+        <p class="evidence"><em>Evidence</em>A team project with reviews and tagged releases, plus a planted secret that the scanner blocks.</p>
+      </div></article>
+      <article class="week"><div class="wn">04</div><div>
+        <h3>AWS fundamentals</h3>
+        <p class="skills">Regions, Availability Zones, and shared responsibility. IAM users, roles, policies, MFA, least privilege, and the CLI. EC2, EBS, S3, VPC, subnets, route tables, and security groups. Budgets, tagging, CloudTrail, and an access review.</p>
+        <p class="evidence"><em>Evidence</em>A web server on EC2 inside a restricted VPC, and a static site on S3, with the security and cost decisions written down.</p>
+      </div></article>
     </div>
   </div>
   <footer class="folio"><b>04</b><span>Foundations</span></footer>
 </section>
 
-<!-- 5 MONTH 2 -->
 <section class="sheet">
+  <div class="spine"></div>
   <div class="pad">
-    <header class="runhead"><span>Cloud &amp; DevOps Academy</span><span>Month 02 · Provision</span></header>
+    <header class="runhead"><span>DevSecOps Academy</span><span>Month 02</span></header>
     <div class="month-head">
-      <div>
-        <p class="block-label" style="margin-top:18px;">Weeks 05 – 08</p>
-        <h2>Provision</h2>
-      </div>
-      <div class="range">Image to code</div>
+      <div><p class="label" style="margin-top:16px;">Weeks 05 - 08</p><h2>Provision</h2></div>
+      <div class="range">Image, cloud, code</div>
     </div>
-    <div class="weeks" style="margin-top:14px;">
-      <article class="week">
-        <div class="wn">05</div>
-        <div>
-          <h3>Docker and containerization</h3>
-          <p class="skills">Containers and virtual machines. Images, registries, layers, and the Docker architecture. Dockerfiles, build context, tags, and multi-stage builds. Ports, volumes, networks, environment, and health checks. Compose, logs, resource limits, and image scanning.</p>
-          <p class="evidence"><em>Evidence</em>An application and database in Compose, with an optimized multi-stage image, persistent volumes, and notes on how to run and troubleshoot it.</p>
-        </div>
-      </article>
-      <article class="week">
-        <div class="wn">06</div>
-        <div>
-          <h3>AWS architecture</h3>
-          <p class="skills">Launch templates, Auto Scaling, and an Application Load Balancer. S3 lifecycle and versioning, IAM roles, Lambda, and event-driven patterns. CloudWatch metrics, logs, and alarms. Public and private subnets, NAT, Secrets Manager, and Systems Manager.</p>
-          <p class="evidence"><em>Evidence</em>A highly available sample behind a load balancer with health checks and least-privilege roles, plus a Lambda with logs and a CloudWatch alarm.</p>
-        </div>
-      </article>
-      <article class="week">
-        <div class="wn">07</div>
-        <div>
-          <h3>Terraform</h3>
-          <p class="skills">Providers, resources, data sources, variables, outputs, and locals. Init, validate, plan, apply, destroy, and state. Modules, remote state, locking, workspaces, and environment separation. Secrets, plan review, drift, tagging, and cost control.</p>
-          <p class="evidence"><em>Evidence</em>A VPC, subnets, security groups, an EC2 instance, and an S3 bucket in Terraform, refactored into modules for dev and test, then destroyed cleanly.</p>
-        </div>
-      </article>
-      <article class="week">
-        <div class="wn">08</div>
-        <div>
-          <h3>Ansible</h3>
-          <p class="skills">Inventory, ad hoc commands, modules, facts, and playbooks. Variables, handlers, templates, roles, loops, conditionals, and Ansible Vault. Idempotency, SSH, and privilege escalation. Where Terraform provisions and Ansible configures.</p>
-          <p class="evidence"><em>Evidence</em>A role that installs Nginx, deploys a page, and sets a firewall rule, then a Terraform-built host configured by Ansible with a repeat run that changes nothing.</p>
-        </div>
-      </article>
+    <div class="weeks" style="margin-top:12px;">
+      <article class="week"><div class="wn">05</div><div>
+        <h3>Docker, and the image scan</h3>
+        <p class="skills">Containers and virtual machines. Images, registries, layers, and Dockerfiles, including multi-stage builds. Ports, volumes, networks, health checks, and Compose. Resource limits. An image scan, with critical findings treated as defects.</p>
+        <p class="evidence"><em>Evidence</em>An application and database in Compose, an optimized image, and a scan report with the serious findings fixed.</p>
+      </div></article>
+      <article class="week"><div class="wn">06</div><div>
+        <h3>AWS architecture</h3>
+        <p class="skills">Launch templates, Auto Scaling, and an Application Load Balancer. S3 lifecycle, IAM roles for services, Lambda, and events. CloudWatch metrics, logs, and alarms. Public and private subnets, NAT, Secrets Manager, and Systems Manager.</p>
+        <p class="evidence"><em>Evidence</em>A highly available sample behind a load balancer, and a Lambda with logs and a CloudWatch alarm.</p>
+      </div></article>
+      <article class="week"><div class="wn">07</div><div>
+        <h3>Terraform, scanned before apply</h3>
+        <p class="skills">Providers, resources, variables, outputs, and data sources. Init, validate, plan, apply, destroy, and state. Modules, remote state, locking, and separate environments. An infrastructure scan of the plan. Drift, tagging, secrets, and cost.</p>
+        <p class="evidence"><em>Evidence</em>A VPC, subnets, security groups, EC2, and S3 in modules. The scan runs before apply. The stack is then destroyed.</p>
+      </div></article>
+      <article class="week"><div class="wn">08</div><div>
+        <h3>Ansible</h3>
+        <p class="skills">Inventory, modules, facts, and playbooks. Variables, handlers, templates, roles, and Vault. Idempotence, SSH, and privilege escalation. A short hardening pass: updates, SSH, and the firewall. Terraform builds the machine. Ansible configures it.</p>
+        <p class="evidence"><em>Evidence</em>A role that installs Nginx and sets a firewall rule, then a second run that changes nothing.</p>
+      </div></article>
     </div>
   </div>
   <footer class="folio"><b>05</b><span>Provision</span></footer>
 </section>
 
-<!-- 6 MONTH 3 -->
 <section class="sheet">
+  <div class="spine"></div>
   <div class="pad">
-    <header class="runhead"><span>Cloud &amp; DevOps Academy</span><span>Month 03 · Delivery</span></header>
+    <header class="runhead"><span>DevSecOps Academy</span><span>Month 03</span></header>
     <div class="month-head">
-      <div>
-        <p class="block-label" style="margin-top:18px;">Weeks 09 – 12</p>
-        <h2>Delivery</h2>
-      </div>
-      <div class="range">Pipeline to cluster</div>
+      <div><p class="label" style="margin-top:16px;">Weeks 09 - 12</p><h2>Delivery</h2></div>
+      <div class="range">Pipeline, cluster, gates</div>
     </div>
-    <div class="weeks" style="margin-top:14px;">
-      <article class="week">
-        <div class="wn">09</div>
-        <div>
-          <h3>CI/CD with GitLab</h3>
-          <p class="skills">Stages, jobs, runners, artifacts, caches, and variables. GitLab CI YAML, rules, needs, environments, and manual approvals. Build, test, package, and publish images to a registry. Rolling, blue/green, and canary releases, plus rollback and release gates.</p>
-          <p class="evidence"><em>Evidence</em>A pipeline that lints, tests, builds, and pushes an image on merge to the default branch, then a test deploy and a demonstrated rollback.</p>
-        </div>
-      </article>
-      <article class="week">
-        <div class="wn">10</div>
-        <div>
-          <h3>Kubernetes core</h3>
-          <p class="skills">Control plane, nodes, API server, scheduler, and etcd. Pods, Deployments, ReplicaSets, Services, namespaces, labels, and selectors. ConfigMaps, Secrets, probes, requests, limits, and rolling updates. kubectl and a local cluster with kind or Minikube.</p>
-          <p class="evidence"><em>Evidence</em>A multi-replica application with a Service, a ConfigMap, and probes, then a broken rollout diagnosed from events, logs, and history.</p>
-        </div>
-      </article>
-      <article class="week">
-        <div class="wn">11</div>
-        <div>
-          <h3>Kubernetes networking, storage, and operations</h3>
-          <p class="skills">Ingress, service discovery, and network policy. PersistentVolumes, claims, StorageClasses, and stateful workloads. The Horizontal Pod Autoscaler, scheduling, and availability. Helm values, upgrades, and rollback. Security contexts and RBAC.</p>
-          <p class="evidence"><em>Evidence</em>A Helm chart with configurable replicas, resources, and environment, plus a stateful workload and a restricted service account.</p>
-        </div>
-      </article>
-      <article class="week">
-        <div class="wn">12</div>
-        <div>
-          <h3>DevSecOps in the pipeline</h3>
-          <p class="skills">Secure delivery, a light threat model, and checks that run in GitLab CI. Secret scanning, dependency scanning, SAST and DAST concepts, and a software bill of materials. Minimal images, non-root containers, and vulnerability scans. Terraform policy checks, provenance, and approvals.</p>
-          <p class="evidence"><em>Evidence</em>Code, dependency, container, and infrastructure checks in the pipeline, with findings fixed, and a hardened image: non-root, no embedded secrets, versions pinned.</p>
-        </div>
-      </article>
+    <div class="weeks" style="margin-top:12px;">
+      <article class="week"><div class="wn">09</div><div>
+        <h3>GitLab CI, fail closed</h3>
+        <p class="skills">Stages, jobs, runners, artifacts, caches, and variables. Rules, environments, and approvals. Build, test, and publish an image. Rolling, blue/green, and canary as ideas, plus a real rollback. Secret and dependency scans fail the pipeline.</p>
+        <p class="evidence"><em>Evidence</em>A pipeline that tests and pushes on merge, a planted secret that blocks it, and a demonstrated rollback.</p>
+      </div></article>
+      <article class="week"><div class="wn">10</div><div>
+        <h3>Kubernetes</h3>
+        <p class="skills">Control plane, nodes, API server, scheduler, and etcd. Pods, Deployments, Services, namespaces, and labels. ConfigMaps, Secrets, probes, requests, and limits. kubectl on kind or Minikube. The first deploy runs as a non-root user.</p>
+        <p class="evidence"><em>Evidence</em>A multi-replica application with a Service and probes, then a broken rollout diagnosed from events, logs, and history.</p>
+      </div></article>
+      <article class="week"><div class="wn">11</div><div>
+        <h3>Cluster operations</h3>
+        <p class="skills">Ingress and network policy. Persistent volumes and stateful workloads. The Horizontal Pod Autoscaler. Helm values, upgrade, and rollback. Security contexts, Pod Security, and RBAC for a restricted account.</p>
+        <p class="evidence"><em>Evidence</em>A Helm chart with configurable values, persistent storage, and a service account that can do only its job.</p>
+      </div></article>
+      <article class="week"><div class="wn">12</div><div>
+        <h3>The secure pipeline</h3>
+        <p class="skills">SAST, dependency scanning, secret scanning, image scanning, and an infrastructure scan, all in GitLab CI. A DAST pass against the test environment. A software bill of materials. Minimal images, pinned versions, no embedded secrets. Findings are fixed or explicitly accepted.</p>
+        <p class="evidence"><em>Evidence</em>A planted finding stops the pipeline. The fix is committed. The image runs as non-root. The SBOM is an artifact of the build.</p>
+      </div></article>
     </div>
   </div>
   <footer class="folio"><b>06</b><span>Delivery</span></footer>
 </section>
 
-<!-- 7 MONTH 4 -->
 <section class="sheet">
+  <div class="spine"></div>
   <div class="pad">
-    <header class="runhead"><span>Cloud &amp; DevOps Academy</span><span>Month 04 · Operations</span></header>
+    <header class="runhead"><span>DevSecOps Academy</span><span>Month 04</span></header>
     <div class="month-head">
-      <div>
-        <p class="block-label" style="margin-top:18px;">Weeks 13 – 16</p>
-        <h2>Operations</h2>
-      </div>
-      <div class="range">Signal to release</div>
+      <div><p class="label" style="margin-top:16px;">Weeks 13 - 16</p><h2>Operations</h2></div>
+      <div class="range">Signal, then release</div>
     </div>
-    <div class="weeks" style="margin-top:14px;">
-      <article class="week">
-        <div class="wn">13</div>
-        <div>
-          <h3>Prometheus, Grafana, and Alertmanager</h3>
-          <p class="skills">Metrics, logs, and traces. Golden signals, SLIs, SLOs, and alert design that stays quiet. Prometheus scrape, exporters, labels, PromQL, and alert rules. Alertmanager grouping, routing, inhibition, silences, and receivers. Grafana dashboards, variables, and the difference between a chart and an alert path.</p>
-          <p class="evidence"><em>Evidence</em>An instrumented application and host, a Grafana dashboard, and Alertmanager routes for high CPU, low disk, and downtime, with a tested response note.</p>
-        </div>
-      </article>
-      <article class="week">
-        <div class="wn">14</div>
-        <div>
-          <h3>Logging with the ELK stack</h3>
-          <p class="skills">Structured logs, levels, correlation IDs, and fields worth keeping. Elasticsearch indexes and mappings. Kibana Discover, visualizations, and dashboards. Ingestion with Elastic Agent, Filebeat, or Logstash. Retention, access control, redaction, and how a log investigation actually proceeds.</p>
-          <p class="evidence"><em>Evidence</em>Application and system logs in Elasticsearch, a Kibana dashboard, and a written investigation that names an error and its cause.</p>
-        </div>
-      </article>
-      <article class="week">
-        <div class="wn">15</div>
-        <div>
-          <h3>GitOps with Argo CD</h3>
-          <p class="skills">Desired state, reconciliation, and declarative delivery. Argo CD applications, repositories, sync policy, health, and drift. Application source kept apart from deployment manifests. Promotion across environments, a secrets approach, progressive delivery, approvals, rollback, and runbooks.</p>
-          <p class="evidence"><em>Evidence</em>A Kubernetes release deployed from Git, a drift correction, a promotion from staging to a production-like namespace, and a rollback.</p>
-        </div>
-      </article>
-      <article class="week">
-        <div class="wn">16</div>
-        <div>
-          <h3>Capstone, review, and demonstration</h3>
-          <p class="skills">Architecture, reliability, security, cost, and documentation judged together. An end-to-end pass over the pipeline, an incident exercise, and a handover. Portfolio, presentation, and a technical review.</p>
-          <p class="evidence"><em>Evidence</em>The platform described on the next page, demonstrated live, with the repository, diagrams, dashboards, and runbook submitted.</p>
-        </div>
-      </article>
+    <div class="weeks" style="margin-top:12px;">
+      <article class="week"><div class="wn">13</div><div>
+        <h3>Prometheus, Grafana, and Alertmanager</h3>
+        <p class="skills">Metrics, logs, and traces. Golden signals, and alerts that stay quiet. Prometheus scrape, exporters, labels, PromQL, and alert rules. Alertmanager grouping, routing, inhibition, silences, and receivers. Grafana for the picture. Alertmanager for the page. One route is a security signal: repeated authentication failure.</p>
+        <p class="evidence"><em>Evidence</em>A dashboard, and tested routes for CPU, disk, downtime, and login failure, with a short response note.</p>
+      </div></article>
+      <article class="week"><div class="wn">14</div><div>
+        <h3>Logging with ELK</h3>
+        <p class="skills">Structured logs, levels, and correlation IDs. Elasticsearch indexes. Kibana Discover and dashboards. Ingestion with Elastic Agent, Filebeat, or Logstash. Retention, access, and redaction of secrets that must not sit in the index.</p>
+        <p class="evidence"><em>Evidence</em>Application and system logs in Elasticsearch, a Kibana dashboard, and a written investigation of an error or an authentication failure.</p>
+      </div></article>
+      <article class="week"><div class="wn">15</div><div>
+        <h3>GitOps with Argo CD</h3>
+        <p class="skills">Desired state, reconciliation, and drift. Applications, sync policy, and health. Source kept apart from deployment manifests. Promotion, rollback, and a secrets approach. GitOps does not bypass the scan gates. A manifest still comes from a pipeline that passed.</p>
+        <p class="evidence"><em>Evidence</em>A release deployed from Git, a drift correction, a promotion, and a rollback.</p>
+      </div></article>
+      <article class="week"><div class="wn">16</div><div>
+        <h3>Capstone and demonstration</h3>
+        <p class="skills">Architecture, reliability, security, cost, and the writing, judged together. An incident exercise. A handover. The review asks how a bad release is undone, which signal would page someone, and what the last scan refused to ship.</p>
+        <p class="evidence"><em>Evidence</em>The platform on the next page, demonstrated live.</p>
+      </div></article>
     </div>
   </div>
   <footer class="folio"><b>07</b><span>Operations</span></footer>
 </section>
 
-<!-- 8 CAPSTONE -->
 <section class="sheet">
+  <div class="spine"></div>
   <div class="pad">
-    <header class="runhead"><span>Cloud &amp; DevOps Academy</span><span>The Engineering Programme</span></header>
-    <p class="block-label" style="margin-top:20px;">Week 16 · Final evidence</p>
+    <header class="runhead"><span>DevSecOps Academy</span><span>Week 16</span></header>
+    <p class="label" style="margin-top:18px;">Final evidence</p>
     <h2>The capstone</h2>
-    <p class="lede">Design, automate, deploy, secure, and observe a production-style application. A task manager, an inventory service, a student portal, or an API. Work is individual or in a small team. The standard is a system another engineer could operate from the runbook.</p>
-    <div class="spec">
-      <div class="spec-row"><div class="n">01</div><strong>Source</strong><div>GitLab, with a documented branching model and merge-request workflow.</div></div>
-      <div class="spec-row"><div class="n">02</div><strong>Infrastructure</strong><div>Terraform on AWS. Least privilege, tags, and a short cost note. Ansible where a host must be configured.</div></div>
-      <div class="spec-row"><div class="n">03</div><strong>Pipeline</strong><div>GitLab CI that validates, tests, builds an image, scans it, and pushes it to a registry.</div></div>
-      <div class="spec-row"><div class="n">04</div><strong>Cluster</strong><div>Kubernetes through Helm or manifests. Probes, requests and limits, and RBAC. EKS where budget allows; kind or Minikube otherwise.</div></div>
-      <div class="spec-row"><div class="n">05</div><strong>Release</strong><div>Argo CD sync from Git, with evidence of promotion and rollback.</div></div>
-      <div class="spec-row"><div class="n">06</div><strong>Metrics</strong><div>Prometheus, Grafana, and Alertmanager. A dashboard and alert routes that have been fired and answered.</div></div>
-      <div class="spec-row"><div class="n">07</div><strong>Logs</strong><div>Centralized logs in the ELK stack and a Kibana view used for an investigation.</div></div>
-      <div class="spec-row"><div class="n">08</div><strong>Record</strong><div>Architecture diagram, README, security findings and fixes, operations runbook, and a live demonstration.</div></div>
+    <p class="lede">A task manager, an inventory service, a student portal, or an API. Individual or a small team. The diagram and the running system describe the same architecture.</p>
+    <div style="margin-top:14px;">
+      <div class="spec-row"><div class="num">01</div><strong>Source</strong><div>GitLab, with a branching model and merge requests.</div></div>
+      <div class="spec-row"><div class="num">02</div><strong>Cloud</strong><div>Terraform on AWS. Least privilege, tags, and a cost note. Ansible where a host must be configured.</div></div>
+      <div class="spec-row"><div class="num">03</div><strong>Pipeline</strong><div>GitLab CI that tests, builds, scans, and publishes. A failed gate blocks the merge.</div></div>
+      <div class="spec-row"><div class="num">04</div><strong>Cluster</strong><div>Kubernetes with probes, requests and limits, and RBAC. EKS where the budget allows. kind or Minikube otherwise.</div></div>
+      <div class="spec-row"><div class="num">05</div><strong>Release</strong><div>Argo CD from Git, with promotion and rollback shown.</div></div>
+      <div class="spec-row"><div class="num">06</div><strong>Signals</strong><div>Prometheus, Grafana, and Alertmanager routes that have fired. Logs in ELK, used for one investigation.</div></div>
+      <div class="spec-row"><div class="num">07</div><strong>Gates</strong><div>Secrets, dependencies, SAST, the image, and the Terraform plan. A planted finding, and the fix in history. An SBOM from the build.</div></div>
+      <div class="spec-row"><div class="num">08</div><strong>Record</strong><div>Architecture diagram, README, findings, runbook, and a live demonstration.</div></div>
     </div>
-    <div class="aside">
-      <div>
-        <h4>What the review asks</h4>
-        <p>Explain the security decisions, how the system recovers from a bad release, which signals would page someone, and how cost is kept in bounds. The diagram and the running system should describe the same architecture.</p>
-      </div>
-      <div>
-        <h4>Budget discipline</h4>
-        <p>EKS and always-on cloud labs are optional. Core Kubernetes work runs locally. AWS is used for selected integration labs and is torn down when the work is done. Cost control is part of the grade, not an afterthought.</p>
-      </div>
-    </div>
+    <p class="label">The tools, named once</p>
+    <p class="lede" style="margin-top:8px;">GitLab CI is the pipeline. Secret detection may be GitLab's or gitleaks. Images and Terraform may be scanned with Trivy or Checkov. SAST may be GitLab or Semgrep. The DAST exercise may use OWASP ZAP against the test environment. The point is the gate, not the logo.</p>
   </div>
   <footer class="folio"><b>08</b><span>Capstone</span></footer>
 </section>
 
-<!-- 9 ASSESSMENT -->
 <section class="sheet">
+  <div class="spine"></div>
   <div class="pad">
-    <header class="runhead"><span>Cloud &amp; DevOps Academy</span><span>The Engineering Programme</span></header>
-    <h2>Assessment</h2>
-    <p class="lede">Grades follow finished work. A claim without a repository, a diagram, or a demonstration does not count.</p>
+    <header class="runhead"><span>DevSecOps Academy</span><span>Assessment</span></header>
+    <h2>What is graded</h2>
+    <p class="lede">A claim without a repository, a diagram, or a demonstration does not count.</p>
     <table class="grade">
-      <thead>
-        <tr><th>Assessment</th><th>Weight</th><th>What is judged</th></tr>
-      </thead>
+      <thead><tr><th>Assessment</th><th>Weight</th><th>What is judged</th></tr></thead>
       <tbody>
-        <tr><td>Weekly practical labs</td><td class="w">30%</td><td>Completion, troubleshooting, and evidence from the week’s exercises.</td></tr>
-        <tr><td>Topic projects and reviews</td><td class="w">20%</td><td>Working deliverables, documentation, and the hygiene of the Git history.</td></tr>
-        <tr><td>Mid-programme practical</td><td class="w">15%</td><td>Docker, AWS, Terraform, Ansible, and a working CI/CD path.</td></tr>
-        <tr><td>Security and observability</td><td class="w">10%</td><td>Pipeline checks, dashboards, logs, and alerts that fire for a real reason.</td></tr>
-        <tr><td>Final capstone</td><td class="w">25%</td><td>Architecture, automation, security, reliability, cost, and the live demonstration.</td></tr>
+        <tr><td>Weekly labs</td><td class="w">25%</td><td>The work of the week, including the troubleshooting.</td></tr>
+        <tr><td>Projects and review</td><td class="w">20%</td><td>Deliverables, the writing, and the hygiene of the Git history.</td></tr>
+        <tr><td>Mid-programme practical</td><td class="w">15%</td><td>Docker, AWS, Terraform, Ansible, and a pipeline that scans.</td></tr>
+        <tr><td>Security and signals</td><td class="w">15%</td><td>Gates that fired, a fix, dashboards, logs, and alerts.</td></tr>
+        <tr><td>Capstone</td><td class="w">25%</td><td>Architecture, automation, security, cost, and the demonstration.</td></tr>
       </tbody>
     </table>
-    <p class="block-label">The shape of a week</p>
+    <p class="label">The shape of a week</p>
     <div class="rhythm">
-      <div>
-        <div class="k">Session 1</div>
-        <h4>Concepts</h4>
-        <p>The idea, a worked demonstration, and the decisions the lab will force.</p>
-      </div>
-      <div>
-        <div class="k">Session 2</div>
-        <h4>Guided lab</h4>
-        <p>Instructor-led practice with checkpoints where things are expected to break.</p>
-      </div>
-      <div>
-        <div class="k">Session 3</div>
-        <h4>Workshop</h4>
-        <p>Project work, review of someone else’s change, a short check, and a presentation.</p>
-      </div>
-      <div>
-        <div class="k">Between sessions</div>
-        <h4>Independent</h4>
-        <p>Two to four hours for practice, documentation, and the portfolio.</p>
-      </div>
+      <div><div class="num">Session 1</div><h4>The idea</h4><p>The concept, a worked demonstration, and the decision the lab will force.</p></div>
+      <div><div class="num">Session 2</div><h4>The lab</h4><p>Guided practice, with checkpoints where the system is expected to break.</p></div>
+      <div><div class="num">Session 3</div><h4>The review</h4><p>Project work, someone else's change, a short check, and a presentation.</p></div>
+      <div><div class="num">Between</div><h4>The hours</h4><p>Two to four hours for practice, writing, and the portfolio.</p></div>
     </div>
-    <p class="block-label">To complete the programme</p>
-    <div class="complete-grid">
-      <p>Finish at least 80 percent of the labs and weekly assignments.</p>
-      <p>Submit the topic projects and pass the mid-programme practical.</p>
-      <p>Demonstrate the capstone and submit source, infrastructure, and the runbook.</p>
-      <p>Explain security, recovery, monitoring, and cost in the final review.</p>
-    </div>
+    <p class="label">To finish</p>
+    <p class="lede" style="margin-top:8px;">Complete at least 80 percent of the labs. Submit the projects and pass the mid-programme practical. Demonstrate the capstone. In the review, explain the security decisions, the recovery from a bad release, the signal that would page someone, and the cost.</p>
   </div>
   <footer class="folio"><b>09</b><span>Assessment</span></footer>
 </section>
 
-<!-- 10 STUDIO -->
 <section class="sheet">
+  <div class="spine"></div>
   <div class="pad">
-    <header class="runhead"><span>Cloud &amp; DevOps Academy</span><span>The Engineering Programme</span></header>
-    <h2>Studio standard</h2>
-    <p class="lede">The lab is part of the curriculum. Accounts, machines, and secrets are handled the way a professional team handles them.</p>
+    <header class="runhead"><span>DevSecOps Academy</span><span>The studio</span></header>
+    <h2>How the lab is run</h2>
+    <p class="lede">Accounts, machines, and secrets are handled the way a serious team handles them. Cost control is part of the work.</p>
     <div class="split">
       <div>
-        <p class="block-label" style="margin-top:16px;">Practice</p>
-        <div class="rule-item"><span>01</span><div>A laptop with 8 GB of memory at minimum. 16 GB is the recommendation once local Kubernetes begins.</div></div>
-        <div class="rule-item"><span>02</span><div>Linux via a virtual machine, WSL2, or a dedicated machine. GitLab access and a container registry are provided.</div></div>
-        <div class="rule-item"><span>03</span><div>AWS learner accounts use MFA, budget alerts, least privilege, and a written cleanup at the end of every lab.</div></div>
-        <div class="rule-item"><span>04</span><div>Kubernetes exercises run on kind or Minikube. EKS is reserved for integration work when the budget allows.</div></div>
-        <div class="rule-item"><span>05</span><div>Credentials never go into Git. Labs use temporary credentials and an approved secrets mechanism.</div></div>
-        <div class="rule-item"><span>06</span><div>Every project leaves a repository, a README, a diagram where the system has one, and a short demonstration.</div></div>
+        <p class="label">Practice</p>
+        <div class="rule-item"><span class="num">01</span><div>16 GB of memory is the recommendation once local Kubernetes begins. 8 GB is the floor.</div></div>
+        <div class="rule-item"><span class="num">02</span><div>Linux by virtual machine, WSL2, or a dedicated machine. GitLab and a container registry are provided.</div></div>
+        <div class="rule-item"><span class="num">03</span><div>AWS learner accounts use MFA, a budget alert, least privilege, and teardown at the end of every lab.</div></div>
+        <div class="rule-item"><span class="num">04</span><div>Kubernetes exercises run on kind or Minikube. EKS is reserved for when the budget allows.</div></div>
+        <div class="rule-item"><span class="num">05</span><div>Credentials never go into Git. A scanner is there to catch the mistake, not to excuse it.</div></div>
+        <div class="rule-item"><span class="num">06</span><div>Every project leaves a repository, a README, a diagram where the system has one, and a short demonstration.</div></div>
       </div>
       <div>
-        <p class="block-label" style="margin-top:16px;">Tool stack</p>
-        <div class="stack-group" style="margin-top:10px;"><h4>Systems</h4><p>Linux, Bash, SSH, and the usual network tools.</p></div>
-        <div class="stack-group"><h4>Collaboration</h4><p>Git and GitLab, including issues and merge requests.</p></div>
-        <div class="stack-group"><h4>Cloud</h4><p>IAM, VPC, EC2, S3, Lambda, CloudWatch, load balancing, and EKS as a concept.</p></div>
+        <p class="label">The stack</p>
+        <div class="stack-group" style="margin-top:10px;"><h4>Systems</h4><p>Linux, Bash, SSH, and the network tools.</p></div>
+        <div class="stack-group"><h4>Collaboration</h4><p>Git and GitLab.</p></div>
+        <div class="stack-group"><h4>Cloud</h4><p>IAM, VPC, EC2, S3, Lambda, CloudWatch, load balancing. EKS as a concept.</p></div>
         <div class="stack-group"><h4>Automation</h4><p>Terraform and Ansible.</p></div>
-        <div class="stack-group"><h4>Delivery</h4><p>Docker, Compose, GitLab CI, a registry, Kubernetes, Helm, kind or Minikube, and Argo CD.</p></div>
-        <div class="stack-group"><h4>Observability</h4><p>Prometheus, Alertmanager, Grafana, and the ELK stack.</p></div>
-        <div class="stack-group"><h4>Security checks</h4><p>Secret, dependency, image, and infrastructure scanning in the pipeline.</p></div>
+        <div class="stack-group"><h4>Delivery</h4><p>Docker, GitLab CI, Kubernetes, Helm, Argo CD.</p></div>
+        <div class="stack-group"><h4>Gates</h4><p>Secrets, dependencies, SAST, image scan, IaC scan, DAST, SBOM.</p></div>
+        <div class="stack-group"><h4>Signals</h4><p>Prometheus, Alertmanager, Grafana, and ELK.</p></div>
       </div>
     </div>
   </div>
-  <footer class="folio"><b>10</b><span>Studio standard</span></footer>
+  <footer class="folio"><b>10</b><span>The studio</span></footer>
 </section>
 
 </body>
