@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DevSecOps Academy - Studio</title>
+<style>
+  :root {
+    --crimson: #a51c30;
+    --ink: #1c1917;
+    --paper: #f6f3ee;
+    --black: #141211;
+    --muted: #6b645b;
+    --body: #3f3a34;
+    --rule: #e3dbd0;
+    --white: #f7f4ef;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--paper); color: var(--ink); }
+  body {
+    font-family: "Avenir Next", "Avenir", "Helvetica Neue", sans-serif;
+    font-size: 16px;
+    line-height: 1.45;
+    min-height: 100vh;
+  }
+  button, input, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  header.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 28px;
+    border-bottom: 1px solid var(--rule);
+    background: rgba(246, 243, 238, 0.94);
+    position: sticky;
+    top: 0;
+    z-index: 4;
+  }
+  .brand { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 600; color: var(--crimson); }
+  .top-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .ghost, .primary, .texty {
+    border: 1px solid var(--rule);
+    background: transparent;
+    padding: 8px 12px;
+    border-radius: 0;
+  }
+  .primary { background: var(--crimson); color: white; border-color: var(--crimson); }
+  .texty { border: 0; padding: 4px 6px; color: var(--muted); background: transparent; }
+  .date-label { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  input[type="date"] { border: 1px solid var(--rule); background: transparent; padding: 7px 8px; }
+  .grid {
+    display: grid;
+    grid-template-columns: 270px minmax(0, 1fr) 330px;
+    gap: 22px;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 26px 28px 72px;
+  }
+  h1, h2, .serif { font-family: "Iowan Old Style", Palatino, serif; font-weight: 400; }
+  h1 { font-size: 40px; line-height: 1; margin: 0; letter-spacing: -0.02em; }
+  h2 { font-size: 28px; margin: 0 0 8px; letter-spacing: -0.02em; }
+  .kicker { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--crimson); font-weight: 600; margin: 0 0 8px; }
+  .muted { color: var(--muted); }
+  .roster h2 { font-size: 22px; }
+  .add { display: flex; gap: 8px; margin: 12px 0 16px; }
+  .add input, .acc input, .name {
+    border: 0;
+    border-bottom: 1px solid var(--rule);
+    background: transparent;
+    padding: 8px 0;
+    width: 100%;
+    border-radius: 0;
+  }
+  .name { font-size: 40px; line-height: 1.05; letter-spacing: -0.02em; }
+  .add input { flex: 1; }
+  .person {
+    display: block;
+    width: 100%;
+    text-align: left;
+    border: 0;
+    border-top: 1px solid var(--rule);
+    background: transparent;
+    padding: 12px 8px 12px 10px;
+  }
+  .person.on { box-shadow: inset 3px 0 0 var(--crimson); background: #fffdf9; }
+  .person strong { display: block; font-weight: 600; }
+  .bar { height: 3px; background: var(--rule); margin-top: 8px; }
+  .bar span { display: block; height: 100%; background: var(--crimson); }
+  .empty {
+    border-top: 1px solid var(--rule);
+    padding-top: 18px;
+    color: var(--body);
+  }
+  .headrow { display: flex; justify-content: space-between; gap: 18px; align-items: flex-end; }
+  .ringwrap { position: relative; width: 92px; height: 92px; flex: none; }
+  .ringwrap svg { width: 92px; height: 92px; }
+  .ringwrap b {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: "Iowan Old Style", Palatino, serif;
+    font-size: 22px; font-weight: 400;
+  }
+  .months { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 22px 0 8px; }
+  .months p { margin: 6px 0 0; font-size: 13px; color: var(--body); }
+  .meter { height: 3px; background: var(--rule); }
+  .meter span { display: block; height: 100%; background: var(--crimson); }
+  .weeks { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; margin: 16px 0 22px; }
+  .week {
+    border: 1px solid var(--rule);
+    background: transparent;
+    min-height: 64px;
+    padding: 8px;
+    text-align: left;
+  }
+  .week b { display: block; font-family: "Iowan Old Style", Palatino, serif; font-weight: 400; color: var(--crimson); }
+  .week small { color: var(--muted); font-size: 11px; }
+  .week.part { background: #f3e4e6; }
+  .week.done { background: var(--crimson); color: white; border-color: var(--crimson); }
+  .week.done b, .week.done small { color: white; }
+  .week.on { outline: 2px solid var(--black); outline-offset: 1px; }
+  .checks { border-top: 1px solid var(--rule); }
+  .check {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    gap: 12px;
+    align-items: start;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule);
+    cursor: pointer;
+  }
+  .check input { margin-top: 3px; accent-color: var(--crimson); width: 16px; height: 16px; }
+  .gate-tag { display: inline-block; margin-left: 8px; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--crimson); }
+  .acc { display: flex; gap: 8px; margin-top: 8px; }
+  .acc input { flex: 1; }
+  .log { list-style: none; padding: 0; margin: 12px 0 0; }
+  .log li {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    padding: 10px 0;
+    border-top: 1px solid var(--rule);
+    font-size: 15px;
+  }
+  .coach {
+    background: var(--black);
+    color: var(--white);
+    padding: 22px 20px 26px;
+    min-height: 420px;
+  }
+  .coach .kicker { color: #e7b7bf; }
+  .coach p { color: #e6e0d8; font-size: 15px; }
+  .coach .asks { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+  .coach .asks button {
+    text-align: left;
+    background: transparent;
+    color: var(--white);
+    border: 1px solid rgba(231, 211, 214, 0.35);
+    padding: 8px 10px;
+  }
+  .answer { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(231, 211, 214, 0.3); }
+  .note {
+    width: 100%;
+    min-height: 72px;
+    margin-top: 8px;
+    border: 1px solid var(--rule);
+    background: transparent;
+    padding: 8px;
+    resize: vertical;
+  }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 0; }
+  .pill { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid var(--rule); padding: 4px 7px; }
+  .pill.held { background: var(--crimson); color: white; border-color: var(--crimson); }
+  .row-actions { display: flex; gap: 8px; align-items: center; }
+  footer.foot {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 28px 28px;
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  @media (max-width: 980px) {
+    .grid { grid-template-columns: 1fr; padding: 18px 16px 48px; }
+    header.top { padding: 14px 16px; position: static; }
+    h1 { font-size: 32px; }
+    .weeks { grid-template-columns: repeat(4, 1fr); }
+    .months { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">DevSecOps Academy · Studio</div>
+  <div class="top-actions">
+    <label class="date-label">Cohort start <input id="started" type="date"></label>
+    <button class="ghost" id="export" type="button">Export</button>
+    <button class="ghost" id="import" type="button">Import</button>
+    <input id="import-file" type="file" accept="application/json" hidden>
+    <button class="texty" id="clear" type="button">Clear</button>
+  </div>
+</header>
+<div class="grid">
+  <aside class="roster">
+    <p class="kicker">Roster</p>
+    <h2>Students</h2>
+    <form class="add" id="add-form">
+      <input id="new-name" name="name" placeholder="Add a name" autocomplete="off" required>
+      <button class="primary" type="submit">Add</button>
+    </form>
+    <div id="roster-list"></div>
+  </aside>
+  <main id="board"></main>
+  <aside id="coach" class="coach"></aside>
+</div>
+<footer class="foot">The record stays in this browser. Export the file to carry it.</footer>
+<script>
+(function () {
+  var KEY = "dsa-studio-v1";
+  var GATES = ["Secrets", "Dependencies", "Static analysis", "Images", "Infrastructure", "DAST and the record"];
+  var WEEKS = [
+    { id: "01", month: "Foundations", title: "Linux and the shell", items: [
+      { t: "Server baseline with least privilege" },
+      { t: "Bash health report of disk, memory, uptime, and services" }
+    ]},
+    { id: "02", month: "Foundations", title: "Networking and SSH", items: [
+      { t: "Key-based SSH between two hosts" },
+      { t: "Troubleshooting runbook for a broken service" }
+    ]},
+    { id: "03", month: "Foundations", title: "Git and GitLab", items: [
+      { t: "Reviewed project with a tagged release" },
+      { t: "A planted secret is blocked before merge", gate: "Secrets" }
+    ]},
+    { id: "04", month: "Foundations", title: "AWS fundamentals", items: [
+      { t: "Web server on EC2 inside a restricted VPC" },
+      { t: "S3 site with the security and cost written down" }
+    ]},
+    { id: "05", month: "Provision", title: "Docker", items: [
+      { t: "Application and database running in Compose" },
+      { t: "Image scan cleaned of serious findings", gate: "Images" }
+    ]},
+    { id: "06", month: "Provision", title: "AWS architecture", items: [
+      { t: "Highly available app behind a load balancer" },
+      { t: "Lambda logged, with a CloudWatch alarm" }
+    ]},
+    { id: "07", month: "Provision", title: "Terraform", items: [
+      { t: "Modular network and compute" },
+      { t: "Plan scanned before apply, then destroyed", gate: "Infrastructure" }
+    ]},
+    { id: "08", month: "Provision", title: "Ansible", items: [
+      { t: "Nginx role and a firewall rule" },
+      { t: "Second run changes nothing" }
+    ]},
+    { id: "09", month: "Delivery", title: "GitLab CI", items: [
+      { t: "Pipeline tests, builds, and publishes" },
+      { t: "A planted secret fails the pipeline", gate: "Secrets" },
+      { t: "A known vulnerable dependency fails the build", gate: "Dependencies" },
+      { t: "A bad release is rolled back" }
+    ]},
+    { id: "10", month: "Delivery", title: "Kubernetes", items: [
+      { t: "Multi-replica app with probes, running as non-root" },
+      { t: "A broken rollout diagnosed from events and logs" }
+    ]},
+    { id: "11", month: "Delivery", title: "Cluster operations", items: [
+      { t: "Helm release with configurable values" },
+      { t: "Workload running as a restricted service account" }
+    ]},
+    { id: "12", month: "Delivery", title: "The secure pipeline", items: [
+      { t: "SAST finding fixed in history", gate: "Static analysis" },
+      { t: "DAST pass against the test environment", gate: "DAST and the record" },
+      { t: "SBOM kept as a build artifact", gate: "DAST and the record" }
+    ]},
+    { id: "13", month: "Operations", title: "Prometheus and Alertmanager", items: [
+      { t: "Grafana dashboard for the app and the host" },
+      { t: "Alert routes tested for CPU, disk, downtime, and login failure" }
+    ]},
+    { id: "14", month: "Operations", title: "Logging with ELK", items: [
+      { t: "Application and system logs in Elasticsearch" },
+      { t: "Written investigation of an error or an auth failure" }
+    ]},
+    { id: "15", month: "Operations", title: "Argo CD", items: [
+      { t: "Release deployed from Git and drift corrected" },
+      { t: "Promotion and rollback shown" }
+    ]},
+    { id: "16", month: "Operations", title: "Capstone", items: [
+      { t: "Terraform, the pipeline, the cluster, and Argo CD together" },
+      { t: "Runbook and a live demonstration" }
+    ]}
+  ];
+  var WHY = {
+    "01": "The later weeks assume a machine you can account for.",
+    "02": "If you cannot reach the host, you cannot defend it.",
+    "03": "A secret that merges is already an incident.",
+    "04": "Cost and access are part of the design, not a cleanup.",
+    "05": "An unscanned image does not belong in a registry.",
+    "06": "One instance with no alarm is not an architecture.",
+    "07": "Apply only what a scan has already seen.",
+    "08": "Configuration that drifts on the second run is not finished.",
+    "09": "The pipeline is the gate. If it stays green for a bad change, it is theatre.",
+    "10": "A deploy you cannot diagnose is a deploy you cannot own.",
+    "11": "Helm and a restricted account are how this leaves a laptop.",
+    "12": "This is the week the gates become one pipeline.",
+    "13": "A dashboard that never pages anyone is a poster.",
+    "14": "The investigation is the point. The index is only the shelf.",
+    "15": "GitOps does not skip the scans. It ships what already passed.",
+    "16": "The standard is a system a stranger could operate."
+  };
+
+  function blank() {
+    return { students: [], checks: {}, notes: {}, accomplishments: {}, labels: {}, selected: null, week: "01", started: today() };
+  }
+  function today() {
+    var d = new Date();
+    var m = String(d.getMonth() + 1).padStart(2, "0");
+    var day = String(d.getDate()).padStart(2, "0");
+    return d.getFullYear() + "-" + m + "-" + day;
+  }
+  function uid() {
+    return "s" + Math.random().toString(36).slice(2, 8);
+  }
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function load() {
+    var state = blank();
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (raw) state = Object.assign(blank(), JSON.parse(raw));
+    } catch (e) { /* keep blank */ }
+    if (!state.started) state.started = today();
+    if (!state.week) state.week = "01";
+    return state;
+  }
+  function save() {
+    localStorage.setItem(KEY, JSON.stringify(state));
+  }
+  function weekById(id) {
+    return WEEKS.filter(function (w) { return w.id === id; })[0];
+  }
+  function label(week, index) {
+    var key = week.id + ":" + index;
+    if (state.labels[key]) return state.labels[key];
+    return week.items[index].t;
+  }
+  function checked(studentId, week, index) {
+    return !!(state.checks[studentId] && state.checks[studentId][week.id + ":" + index]);
+  }
+  function totals(studentId) {
+    var done = 0;
+    var all = 0;
+    WEEKS.forEach(function (w) {
+      w.items.forEach(function (_, i) {
+        all += 1;
+        if (checked(studentId, w, i)) done += 1;
+      });
+    });
+    return { done: done, all: all, pct: all ? Math.round(done / all * 100) : 0 };
+  }
+  function weekScore(studentId, week) {
+    var done = 0;
+    week.items.forEach(function (_, i) {
+      if (checked(studentId, week, i)) done += 1;
+    });
+    return { done: done, all: week.items.length };
+  }
+  function monthScore(studentId, month) {
+    var done = 0;
+    var all = 0;
+    WEEKS.filter(function (w) { return w.month === month; }).forEach(function (w) {
+      var s = weekScore(studentId, w);
+      done += s.done;
+      all += s.all;
+    });
+    return { done: done, all: all, pct: all ? Math.round(done / all * 100) : 0 };
+  }
+  function nextOpen(studentId) {
+    var found = null;
+    WEEKS.some(function (w) {
+      return w.items.some(function (item, i) {
+        if (!checked(studentId, w, i)) {
+          found = { week: w, index: i, text: label(w, i), gate: item.gate || "" };
+          return true;
+        }
+        return false;
+      });
+    });
+    return found;
+  }
+  function gateState(studentId) {
+    return GATES.map(function (name) {
+      var items = [];
+      WEEKS.forEach(function (w) {
+        w.items.forEach(function (item, i) {
+          if (item.gate === name) items.push(checked(studentId, w, i));
+        });
+      });
+      return { name: name, held: items.length > 0 && items.every(Boolean) };
+    });
+  }
+  function calendarWeek() {
+    var start = new Date(state.started + "T00:00:00");
+    if (isNaN(start.getTime())) return 1;
+    var days = (Date.now() - start.getTime()) / 86400000;
+    var n = Math.floor(days / 7) + 1;
+    if (n < 1) return 1;
+    if (n > 16) return 16;
+    return n;
+  }
+  function furthestWeek(studentId) {
+    var last = 0;
+    WEEKS.forEach(function (w, idx) {
+      if (weekScore(studentId, w).done > 0) last = idx + 1;
+    });
+    return last;
+  }
+  function student() {
+    return state.students.filter(function (s) { return s.id === state.selected; })[0] || null;
+  }
+  function briefing(s) {
+    if (!s) return ["Add a name. The briefing is written from that student's record."];
+    var t = totals(s.id);
+    var next = nextOpen(s.id);
+    var lines = [];
+    if (!next) {
+      lines.push(s.name + " has closed the inventory. " + t.done + " of " + t.all + " pieces of evidence are marked. What remains is the quality of the demonstration, not another checkbox.");
+    } else if (t.done === 0) {
+      lines.push(s.name + " is on the roster and the inventory is still open. Begin with Week " + next.week.id + ", " + next.week.title + ". " + WHY[next.week.id]);
+    } else {
+      lines.push(s.name + " has marked " + t.done + " of " + t.all + " pieces of evidence (" + t.pct + "%). The next open piece is Week " + next.week.id + ", " + next.text + ". " + WHY[next.week.id]);
+    }
+    var openGates = gateState(s.id).filter(function (g) { return !g.held; }).map(function (g) { return g.name; });
+    if (openGates.length === 0) lines.push("All six gates are held: secrets, dependencies, static analysis, images, infrastructure, and the DAST record.");
+    else lines.push("Gates still open: " + openGates.join(", ") + ".");
+    var cal = calendarWeek();
+    var far = furthestWeek(s.id);
+    if (far === 0) lines.push("The calendar says week " + cal + ". Nothing in the inventory has been marked yet.");
+    else if (far + 1 < cal) lines.push("The calendar says week " + cal + ". The record has only reached week " + far + ".");
+    else if (far > cal) lines.push("The record has reached week " + far + ", ahead of calendar week " + cal + ".");
+    else lines.push("The record and the calendar are both in week " + cal + ".");
+    var log = state.accomplishments[s.id] || [];
+    if (log.length) lines.push("Latest note in the log: " + log[0].text);
+    else lines.push("The accomplishment log is empty. A checkbox is not a note.");
+    return lines;
+  }
+  function answer(s, kind) {
+    if (!s) return "Add a student first.";
+    if (kind === "next") {
+      var next = nextOpen(s.id);
+      if (!next) return "Nothing in the inventory is open. Rehearse the capstone demonstration and read the runbook as if you were new to the system.";
+      return "This week, close Week " + next.week.id + ": " + next.text + ". " + WHY[next.week.id];
+    }
+    if (kind === "gates") {
+      var gates = gateState(s.id);
+      return gates.map(function (g) { return (g.held ? "Held" : "Open") + " — " + g.name; }).join(". ") + ".";
+    }
+    var missing = [];
+    ["07", "09", "12", "13", "15", "16"].forEach(function (id) {
+      var w = weekById(id);
+      var score = weekScore(s.id, w);
+      if (score.done < score.all) missing.push("Week " + id + " " + w.title);
+    });
+    if (!missing.length) return "The capstone path is marked complete: Terraform, the pipeline, the gates, the alerts, Argo CD, and the demonstration. Defend it out loud.";
+    return "Before the capstone review, these are still open: " + missing.join("; ") + ".";
+  }
+
+  var state = load();
+
+  function renderRoster() {
+    var el = document.getElementById("roster-list");
+    if (!state.students.length) {
+      el.innerHTML = '<p class="empty">No one is on the roster. Add a name to start an inventory.</p><button class="ghost" type="button" data-sample="1">Show a sample roster</button>';
+      return;
+    }
+    el.innerHTML = state.students.map(function (s) {
+      var t = totals(s.id);
+      return '<button class="person' + (s.id === state.selected ? " on" : "") + '" data-select="' + esc(s.id) + '" type="button"><strong>' + esc(s.name) + '</strong><span class="muted">' + t.pct + '% · ' + t.done + ' of ' + t.all + '</span><div class="bar"><span style="width:' + t.pct + '%"></span></div></button>';
+    }).join("");
+  }
+
+  function renderBoard() {
+    var el = document.getElementById("board");
+    var s = student();
+    if (!s) {
+      el.innerHTML = '<p class="kicker">Inventory</p><h1>Sixteen weeks, waiting for a name.</h1><p class="muted">Each week has evidence. Mark it when it is real, not when it was discussed. The six gates turn crimson only when every piece that holds them is checked.</p>';
+      return;
+    }
+    var t = totals(s.id);
+    var months = ["Foundations", "Provision", "Delivery", "Operations"].map(function (m) {
+      var sc = monthScore(s.id, m);
+      return '<div><div class="kicker">' + m + '</div><div class="meter"><span style="width:' + sc.pct + '%"></span></div><p>' + sc.done + ' of ' + sc.all + '</p></div>';
+    }).join("");
+    var rail = WEEKS.map(function (w) {
+      var sc = weekScore(s.id, w);
+      var cls = "week" + (sc.done === sc.all ? " done" : sc.done ? " part" : "") + (w.id === state.week ? " on" : "");
+      return '<button class="' + cls + '" type="button" data-week="' + w.id + '"><b>' + w.id + '</b><small>' + sc.done + '/' + sc.all + '</small></button>';
+    }).join("");
+    var w = weekById(state.week);
+    var checks = w.items.map(function (item, i) {
+      var on = checked(s.id, w, i);
+      var gate = item.gate ? '<span class="gate-tag">' + esc(item.gate) + '</span>' : "";
+      return '<label class="check"><input type="checkbox" data-check="' + i + '"' + (on ? " checked" : "") + '><span>' + esc(label(w, i)) + gate + '</span></label>';
+    }).join("");
+    var gates = gateState(s.id).map(function (g) {
+      return '<span class="pill' + (g.held ? " held" : "") + '">' + esc(g.name) + '</span>';
+    }).join("");
+    var log = (state.accomplishments[s.id] || []).map(function (a) {
+      return '<li><span><strong>Week ' + esc(a.week) + '</strong> · ' + esc(a.text) + '</span><button class="texty" type="button" data-drop-acc="' + esc(a.id) + '">Remove</button></li>';
+    }).join("");
+    var dash = 'stroke-dasharray="' + t.pct + ' 100"';
+    el.innerHTML =
+      '<div class="headrow"><div><p class="kicker">Week ' + w.id + ' · ' + esc(w.month) + '</p><input class="name serif" id="rename" value="' + esc(s.name) + '" aria-label="Student name"><p class="muted" style="margin-top:8px">' + esc(w.title) + '. ' + WHY[w.id] + '</p></div>' +
+      '<div class="ringwrap" aria-hidden="true"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.5" fill="none" stroke="#e3dbd0" stroke-width="2"></circle><circle cx="18" cy="18" r="15.5" fill="none" stroke="#a51c30" stroke-width="2" pathLength="100" ' + dash + ' transform="rotate(-90 18 18)"></circle></svg><b>' + t.pct + '%</b></div></div>' +
+      '<div class="months">' + months + '</div>' +
+      '<p class="kicker">Weekly inventory</p><div class="weeks">' + rail + '</div>' +
+      '<p class="kicker">Evidence</p><div class="checks">' + checks + '</div>' +
+      '<p class="kicker" style="margin-top:22px">Gates</p><div class="pills">' + gates + '</div>' +
+      '<p class="kicker" style="margin-top:22px">In their words</p><textarea class="note" id="note" placeholder="What they can defend this week.">' + esc(state.notes[s.id] || "") + '</textarea>' +
+      '<p class="kicker" style="margin-top:22px">Accomplishments</p><form class="acc" id="acc-form"><input id="acc-text" placeholder="What they finished, in a sentence" autocomplete="off"><button class="primary" type="submit">Add</button></form><ul class="log">' + (log || '<li><span class="muted">Nothing logged yet.</span></li>') + '</ul>' +
+      '<div class="row-actions" style="margin-top:18px"><button class="texty" type="button" id="remove-student">Remove this student</button></div>';
+    var rename = document.getElementById("rename");
+    rename.addEventListener("change", function () {
+      var name = rename.value.trim();
+      if (!name) { rename.value = s.name; return; }
+      s.name = name;
+      save();
+      render();
+    });
+    document.getElementById("note").addEventListener("change", function (ev) {
+      state.notes[s.id] = ev.target.value;
+      save();
+      renderCoach();
+    });
+    document.getElementById("acc-form").addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var input = document.getElementById("acc-text");
+      var text = input.value.trim();
+      if (!text) return;
+      var list = state.accomplishments[s.id] || [];
+      list.unshift({ id: uid(), week: state.week, text: text });
+      state.accomplishments[s.id] = list;
+      save();
+      render();
+    });
+    var remove = document.getElementById("remove-student");
+    remove.addEventListener("click", function () {
+      if (!confirm("Remove " + s.name + " from this browser?")) return;
+      state.students = state.students.filter(function (x) { return x.id !== s.id; });
+      delete state.checks[s.id];
+      delete state.notes[s.id];
+      delete state.accomplishments[s.id];
+      state.selected = state.students.length ? state.students[0].id : null;
+      save();
+      render();
+    });
+  }
+
+  function renderCoach() {
+    var el = document.getElementById("coach");
+    var s = student();
+    var lines = briefing(s).map(function (p) { return "<p>" + esc(p) + "</p>"; }).join("");
+    var reply = state.reply ? '<div class="answer"><p>' + esc(state.reply) + '</p></div>' : "";
+    el.innerHTML =
+      '<p class="kicker">Coach</p><h2 class="serif" style="color:#f7f4ef">The briefing</h2>' + lines +
+      '<div class="asks"><button type="button" data-ask="next">What should be finished next?</button><button type="button" data-ask="gates">Which gates are open?</button><button type="button" data-ask="cap">What is still in the way of the capstone?</button><button type="button" id="copy-prompt">Copy a prompt for another model</button></div>' + reply +
+      '<p class="muted" style="margin-top:18px;color:#c8beb4;font-size:12px;letter-spacing:0.08em;text-transform:uppercase">Written on this machine, from the inventory.</p>';
+  }
+
+  function render() {
+    renderRoster();
+    renderBoard();
+    renderCoach();
+    document.getElementById("started").value = state.started;
+  }
+
+  function promptFor(s) {
+    var t = totals(s.id);
+    var open = [];
+    WEEKS.forEach(function (w) {
+      w.items.forEach(function (_, i) {
+        if (!checked(s.id, w, i)) open.push("Week " + w.id + " " + label(w, i));
+      });
+    });
+    var log = (state.accomplishments[s.id] || []).map(function (a) { return "Week " + a.week + ": " + a.text; }).join("\n");
+    return [
+      "You are the tutor for the DevSecOps Academy sixteen-week syllabus. Be brief and specific.",
+      "Student: " + s.name,
+      "Evidence marked: " + t.done + " of " + t.all + ".",
+      "Still open:",
+      open.join("\n") || "None.",
+      "Accomplishments:",
+      log || "None.",
+      "Note: " + (state.notes[s.id] || "None."),
+      "Write four short sentences: where they are, the next gate, one risk, and what to say in the next review."
+    ].join("\n");
+  }
+
+  function seedSample() {
+    state.students = [{ id: "s1", name: "Student A" }, { id: "s2", name: "Student B" }];
+    state.selected = "s1";
+    state.checks = { s1: { "01:0": true, "01:1": true, "02:0": true, "03:1": true, "05:1": true }, s2: { "01:0": true } };
+    state.accomplishments = { s1: [{ id: "a1", week: "01", text: "Baseline is documented." }] };
+    state.notes = { s1: "Can explain least privilege on the baseline host." };
+  }
+  function boot() {
+  if (location.search.indexOf("sample=1") !== -1 && !state.students.length) seedSample();
+  document.getElementById("add-form").addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var input = document.getElementById("new-name");
+    var name = input.value.trim();
+    if (!name) return;
+    var person = { id: uid(), name: name };
+    state.students.push(person);
+    state.selected = person.id;
+    state.checks[person.id] = {};
+    input.value = "";
+    save();
+    render();
+  });
+  document.getElementById("roster-list").addEventListener("click", function (ev) {
+    if (ev.target.closest("[data-sample]")) { seedSample(); save(); render(); return; }
+    var btn = ev.target.closest("[data-select]");
+    if (!btn) return;
+    state.selected = btn.getAttribute("data-select");
+    state.reply = "";
+    save();
+    render();
+  });
+  document.getElementById("board").addEventListener("click", function (ev) {
+    var weekBtn = ev.target.closest("[data-week]");
+    if (weekBtn) {
+      state.week = weekBtn.getAttribute("data-week");
+      save();
+      render();
+      return;
+    }
+    var drop = ev.target.closest("[data-drop-acc]");
+    if (drop) {
+      var s = student();
+      state.accomplishments[s.id] = (state.accomplishments[s.id] || []).filter(function (a) {
+        return a.id !== drop.getAttribute("data-drop-acc");
+      });
+      save();
+      render();
+    }
+  });
+  document.getElementById("board").addEventListener("change", function (ev) {
+    var box = ev.target.closest("[data-check]");
+    if (!box) return;
+    var s = student();
+    var key = state.week + ":" + box.getAttribute("data-check");
+    state.checks[s.id] = state.checks[s.id] || {};
+    if (box.checked) state.checks[s.id][key] = true;
+    else delete state.checks[s.id][key];
+    state.reply = "";
+    save();
+    render();
+  });
+  document.getElementById("coach").addEventListener("click", function (ev) {
+    var ask = ev.target.closest("[data-ask]");
+    var s = student();
+    if (ask) {
+      state.reply = answer(s, ask.getAttribute("data-ask"));
+      renderCoach();
+      return;
+    }
+    if (ev.target.id === "copy-prompt") {
+      if (!s) { state.reply = "Add a student first."; renderCoach(); return; }
+      var text = promptFor(s);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () {
+          state.reply = "Prompt copied. Paste it into the model you trust.";
+          renderCoach();
+        });
+      } else {
+        state.reply = text;
+        renderCoach();
+      }
+    }
+  });
+  document.getElementById("started").addEventListener("change", function (ev) {
+    state.started = ev.target.value || today();
+    save();
+    renderCoach();
+  });
+  document.getElementById("export").addEventListener("click", function () {
+    var blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "devsecops-studio.json";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+  document.getElementById("import").addEventListener("click", function () {
+    document.getElementById("import-file").click();
+  });
+  document.getElementById("import-file").addEventListener("change", function (ev) {
+    var file = ev.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      try {
+        var next = JSON.parse(reader.result);
+        if (!next.students) throw new Error("missing students");
+        state = Object.assign(blank(), next);
+        save();
+        render();
+      } catch (err) {
+        alert("That file is not a studio export.");
+      }
+    };
+    reader.readAsText(file);
+    ev.target.value = "";
+  });
+  document.getElementById("clear").addEventListener("click", function () {
+    if (!confirm("Clear the roster stored in this browser?")) return;
+    state = blank();
+    save();
+    render();
+  });
+
+  render();
+  }
+  if (typeof document !== "undefined") boot();
+
+  if (typeof module !== "undefined" && module.exports) {
+    module.exports = {
+      WEEKS: WEEKS,
+      briefing: briefing,
+      answer: answer,
+      totals: totals,
+      nextOpen: nextOpen,
+      gateState: gateState,
+      getState: function () { return state; },
+      setState: function (next) { state = next; }
+    };
+  }
+})();
+</script>
+</body>
+</html>

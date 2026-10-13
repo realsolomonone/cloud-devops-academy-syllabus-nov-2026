@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KenDops — DevOps, cloud, and AI automation</title>
+<style>
+  :root {
+    --black: #0B0C0E;
+    --paper: #F3F0E8;
+    --ink: #141614;
+    --body: #3A3D38;
+    --muted: #6A6E66;
+    --lime: #D6F24A;
+    --deep: #1C3A28;
+    --rule: #E2DDD2;
+    --white: #F6F4EE;
+    --soft: #C4C8BE;
+    --serif: "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, serif;
+    --sans: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+    --med: "Avenir Next Medium", "Avenir Next", Avenir, "Segoe UI", sans-serif;
+    --demi: "Avenir Next Demi Bold", "Avenir Next", Avenir, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--black); color: var(--ink); }
+  body { font-family: var(--sans); }
+  .deck { height: 100vh; overflow-y: auto; scroll-snap-type: y mandatory; }
+  .slide {
+    position: relative;
+    min-height: 100vh;
+    scroll-snap-align: start;
+    padding: 7vh 7vw 8vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .paper { background: var(--paper); color: var(--ink); }
+  .dark { background: var(--black); color: var(--white); }
+  .bar { position: absolute; left: 0; top: 0; bottom: 0; width: 8px; }
+  .paper .bar { background: var(--deep); }
+  .dark .bar { background: var(--lime); width: 10px; }
+  .kicker {
+    font-family: var(--med);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .paper .kicker { color: var(--deep); }
+  .dark .kicker { color: var(--lime); }
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .num {
+    font-family: var(--serif);
+    font-size: 14px;
+    margin: 0;
+  }
+  .paper .num { color: var(--muted); }
+  .dark .num { color: var(--soft); }
+  h1, h2, h3, p { margin: 0; }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+  }
+  h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(32px, 3.4vw, 44px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+  }
+  .lede {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--lime);
+    font-size: clamp(20px, 2vw, 26px);
+    margin-top: 28px;
+  }
+  .foot {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    align-items: baseline;
+    font-family: var(--med);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 13px;
+    color: var(--soft);
+    padding-top: 32px;
+  }
+  .outcomes { list-style: none; padding: 0; margin: 28px 0 0; }
+  .outcomes li {
+    display: grid;
+    grid-template-columns: 42px 1fr;
+    gap: 12px;
+    align-items: baseline;
+    padding: 7px 0;
+    font-size: clamp(16px, 1.5vw, 18px);
+  }
+  .idx { font-family: var(--serif); color: var(--deep); }
+  .dark .idx { color: var(--lime); }
+  .clock {
+    margin-top: auto;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+    border-top: 1.5px solid var(--deep);
+    padding-top: 18px;
+  }
+  .clock strong { display: block; font-family: var(--demi); font-size: 15px; font-weight: 600; }
+  .clock span { color: var(--muted); font-size: 13px; }
+  .grid2, .grid3, .grid4, .grid5 { display: grid; gap: 28px 36px; }
+  .grid2 { grid-template-columns: 1fr 1fr; margin-top: 28px; }
+  .grid3 { grid-template-columns: repeat(3, 1fr); }
+  .grid4 { grid-template-columns: repeat(4, 1fr); }
+  .grid5 { grid-template-columns: repeat(5, 1fr); margin-top: 36px; }
+  .card h3 { font-family: var(--serif); font-size: clamp(22px, 2vw, 28px); font-weight: 400; margin: 8px 0; }
+  .card p { color: var(--body); font-size: 16px; line-height: 1.35; }
+  .dark .card p { color: var(--soft); }
+  .rule { width: 42px; height: 2px; background: var(--deep); margin-bottom: 8px; }
+  .close {
+    margin-top: auto;
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--deep);
+    font-size: 18px;
+    padding-top: 24px;
+  }
+  .words { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; margin: 48px 0; }
+  .words h3 { font-family: var(--serif); font-size: clamp(22px, 2.2vw, 32px); font-weight: 400; color: var(--white); }
+  .system-copy { color: var(--soft); font-size: 18px; line-height: 1.45; max-width: 46em; }
+  .tools { margin-top: 22px; border-top: 1.5px solid var(--deep); }
+  .tools div {
+    display: grid;
+    grid-template-columns: 1.3fr 2.2fr 2.2fr;
+    gap: 18px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: baseline;
+  }
+  .tools strong { font-family: var(--serif); font-size: 22px; font-weight: 400; }
+  .tools span { color: var(--body); }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 22px; }
+  .split ol { list-style: none; padding: 0; margin: 12px 0 0; }
+  .split li {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 8px;
+    padding: 12px 0;
+    font-size: 17px;
+    line-height: 1.3;
+  }
+  .flow {
+    margin-top: auto;
+    border-top: 1.5px solid var(--deep);
+    padding-top: 16px;
+    font-family: var(--serif);
+    font-size: clamp(22px, 2.2vw, 30px);
+  }
+  .limebar { width: 48px; height: 3px; background: var(--lime); margin-bottom: 10px; }
+  .pipe h3 { font-family: var(--serif); font-size: 26px; font-weight: 400; margin: 6px 0; }
+  .pipe p { color: var(--body); font-size: 15px; line-height: 1.3; }
+  .label {
+    font-family: var(--med);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--deep);
+  }
+  .ai {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 48px;
+    margin-top: 22px;
+  }
+  .use {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 12px;
+    padding: 12px 0;
+  }
+  .use strong { font-family: var(--serif); font-size: 20px; font-weight: 400; }
+  .use span { color: var(--body); font-size: 15px; line-height: 1.35; }
+  .guard { border-left: 2px solid var(--deep); padding-left: 22px; }
+  .guard li {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 8px;
+    padding: 10px 0;
+    font-size: 15px;
+    line-height: 1.3;
+    list-style: none;
+  }
+  .guard ol { padding: 0; margin: 8px 0 0; }
+  .nav {
+    position: fixed;
+    right: 22px;
+    bottom: 18px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    z-index: 2;
+  }
+  .nav button {
+    background: transparent;
+    color: var(--lime);
+    border: 1px solid rgba(214, 242, 74, 0.45);
+    font-family: var(--sans);
+    font-size: 13px;
+    padding: 6px 10px;
+    cursor: pointer;
+  }
+  .nav output { color: var(--soft); font-family: var(--serif); font-size: 13px; min-width: 4.2em; text-align: center; }
+  @media screen and (max-width: 860px) {
+    .deck { height: auto; overflow: visible; scroll-snap-type: none; }
+    .slide { min-height: auto; scroll-snap-align: none; padding: 32px 22px 48px; }
+    h1 { font-size: 40px !important; max-width: none; }
+    .outcomes li { grid-template-columns: 36px minmax(0, 1fr); }
+    .clock, .grid2, .grid3, .grid4, .grid5, .words, .split, .ai, .tools div {
+      grid-template-columns: 1fr;
+    }
+    .foot { flex-direction: column; gap: 8px; }
+    .nav { display: none; }
+  }
+  @media print {
+    .nav { display: none; }
+    .deck { height: auto; overflow: visible; }
+    .slide { min-height: 7.5in; height: 7.5in; page-break-after: always; padding: 0.48in 0.62in; }
+    @page { size: 13.333in 7.5in; margin: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<section class="slide dark" id="s1">
+  <div class="bar"></div>
+  <p class="kicker">Kendops &nbsp;&middot;&nbsp; Training 2026</p>
+  <div style="margin-top:auto">
+    <h1 style="font-size:clamp(48px, 6vw, 76px); max-width:12em">DevOps, cloud,<br>and AI automation.</h1>
+    <p class="lede">Forty-five minutes. One delivery path.</p>
+  </div>
+  <div class="foot">
+    <span>Build &nbsp; Deploy &nbsp; Observe &nbsp; Automate</span>
+    <span>Certification and consulting</span>
+  </div>
+</section>
+
+<section class="slide paper" id="s2">
+  <div class="bar"></div>
+  <div class="top"><p class="kicker">Kendops</p><p class="num">02</p></div>
+  <h2 style="margin-top:28px">Leave with a workflow,<br>not a list of tools.</h2>
+  <ol class="outcomes">
+    <li><span class="idx">01</span><span>See the DevOps loop as shared ownership, not a job title.</span></li>
+    <li><span class="idx">02</span><span>Place cloud and Terraform on that loop.</span></li>
+    <li><span class="idx">03</span><span>Watch a change earn the right to ship: build, test, scan, deploy.</span></li>
+    <li><span class="idx">04</span><span>Read the running system: metrics, logs, traces, and an alert with an owner.</span></li>
+    <li><span class="idx">05</span><span>Use AI where it saves time, and keep a person on the risk.</span></li>
+  </ol>
+  <div class="clock">
+    <div><span class="idx">01</span><strong>Foundations</strong><span>7 min</span></div>
+    <div><span class="idx">02</span><strong>Cloud + IaC</strong><span>8 min</span></div>
+    <div><span class="idx">03</span><strong>Pipeline</strong><span>8 min</span></div>
+    <div><span class="idx">04</span><strong>Observe</strong><span>8 min</span></div>
+    <div><span class="idx">05</span><strong>AI assist</strong><span>8 min</span></div>
+    <div><span class="idx">06</span><strong>Live trace</strong><span>6 min</span></div>
+  </div>
+</section>
+
+<section class="slide paper" id="s3">
+  <div class="bar"></div>
+  <div class="top"><p class="kicker">Kendops</p><p class="num">03</p></div>
+  <h2 style="margin-top:22px">Four roles. One delivery.</h2>
+  <div class="grid2">
+    <article class="card"><div class="rule"></div><span class="idx">01</span><h3>DevOps engineer</h3><p>Builds the path from commit to release, and shortens the wait.</p></article>
+    <article class="card"><div class="rule"></div><span class="idx">02</span><h3>Cloud engineer</h3><p>Designs infrastructure that can be locked down, scaled, and paid for.</p></article>
+    <article class="card"><div class="rule"></div><span class="idx">03</span><h3>Platform engineer</h3><p>Turns that path into something the next team can use without a tour.</p></article>
+    <article class="card"><div class="rule"></div><span class="idx">04</span><h3>AI automation engineer</h3><p>Removes the repeatable work, and leaves the judgment in place.</p></article>
+  </div>
+  <p class="close">Growth shows up as projects other people can run, not as a longer list of tools.</p>
+</section>
+
+<section class="slide dark" id="s4">
+  <div class="bar"></div>
+  <div class="top"><p class="kicker">Kendops</p><p class="num">04</p></div>
+  <h2 style="margin-top:8vh; font-size:clamp(42px, 5vw, 68px); color:var(--white)">One workflow.</h2>
+  <div class="words">
+    <div><span class="idx">01</span><h3>Cloud</h3></div>
+    <div><span class="idx">02</span><h3>DevOps</h3></div>
+    <div><span class="idx">03</span><h3>Security</h3></div>
+    <div><span class="idx">04</span><h3>AI</h3></div>
+    <div><span class="idx">05</span><h3>Observe</h3></div>
+  </div>
+  <p class="system-copy">DevOps is how the team works. Cloud is where the system runs. Security decides what may ship. AI drafts the repeatable part. Observability tells you whether it stayed healthy.</p>
+</section>
+
+<section class="slide paper" id="s5">
+  <div class="bar"></div>
+  <div class="top"><p class="kicker">Kendops</p><p class="num">05</p></div>
+  <h2 style="margin-top:22px">Shorten the loop.<br>Do not skip the check.</h2>
+  <div class="grid4" style="margin-top:36px">
+    <article class="card"><span class="idx">01</span><h3>Plan</h3><p>Choose the smallest change.</p></article>
+    <article class="card"><span class="idx">02</span><h3>Code</h3><p>Put it in Git.</p></article>
+    <article class="card"><span class="idx">03</span><h3>Build</h3><p>Make it reproducible.</p></article>
+    <article class="card"><span class="idx">04</span><h3>Test</h3><p>Prove the behavior.</p></article>
+    <article class="card"><span class="idx">05</span><h3>Release</h3><p>Approve what passed.</p></article>
+    <article class="card"><span class="idx">06</span><h3>Deploy</h3><p>Ship a known version.</p></article>
+    <article class="card"><span class="idx">07</span><h3>Operate</h3><p>Run it on purpose.</p></article>
+    <article class="card"><span class="idx">08</span><h3>Observe</h3><p>Metrics, logs, traces. Then plan again.</p></article>
+  </div>
+</section>
+
+<section class="slide paper" id="s6">
+  <div class="bar"></div>
+  <div class="top"><p class="kicker">Kendops</p><p class="num">06</p></div>
+  <h2 style="margin-top:18px">The instruments</h2>
+  <div class="tools">
+    <div><strong>Cloud</strong><span>AWS, Azure, Google Cloud</span><span>Compute, storage, network, identity.</span></div>
+    <div><strong>Infrastructure</strong><span>Terraform, OpenTofu</span><span>Reviewed changes, not clicked ones.</span></div>
+    <div><strong>Delivery</strong><span>GitHub Actions, GitLab CI, Jenkins</span><span>Build, test, release, deploy.</span></div>
+    <div><strong>Containers</strong><span>Docker, Kubernetes</span><span>The same application, anywhere it runs.</span></div>
+    <div><strong>AI</strong><span>Model APIs, workflow tools</span><span>Summaries, drafts, classification.</span></div>
+    <div><strong>Observe</strong><span>Prometheus, Grafana, Alertmanager</span><span>Metrics, logs, traces. A page with an owner.</span></div>
+  </div>
+</section>
+
+<section class="slide paper" id="s7">
+  <div class="bar"></div>
+  <div class="top"><p class="kicker">Kendops</p><p class="num">07</p></div>
+  <h2 style="margin-top:18px">Cloud, written down.</h2>
+  <div class="split">
+    <div>
+      <p class="label">Cloud</p>
+      <ol>
+        <li><span class="idx">01</span><span>Capacity you can add, and remove, when demand moves.</span></li>
+        <li><span class="idx">02</span><span>Identity, network rules, backups, and a budget.</span></li>
+        <li><span class="idx">03</span><span>A managed service when running it yourself is not the work.</span></li>
+      </ol>
+    </div>
+    <div>
+      <p class="label">Infrastructure as code</p>
+      <ol>
+        <li><span class="idx">01</span><span>Infrastructure lives in Git, next to the application.</span></li>
+        <li><span class="idx">02</span><span>A plan is reviewed before anyone is allowed to apply.</span></li>
+        <li><span class="idx">03</span><span>State is protected. Secrets never enter the repository.</span></li>
+      </ol>
+    </div>
+  </div>
+  <p class="flow">Commit &rarr; plan &rarr; review &rarr; apply &rarr; verify</p>
+</section>
+
+<section class="slide paper" id="s8">
+  <div class="bar"></div>
+  <div class="top"><p class="kicker">Kendops</p><p class="num">08</p></div>
+  <h2 style="margin-top:22px">A change earns<br>the right to ship.</h2>
+  <div class="grid5 pipe">
+    <article><div class="limebar"></div><span class="idx">01</span><h3>Build</h3><p>The same steps, every time.</p></article>
+    <article><div class="limebar"></div><span class="idx">02</span><h3>Test</h3><p>Behavior before opinion.</p></article>
+    <article><div class="limebar"></div><span class="idx">03</span><h3>Scan</h3><p>Secrets, dependencies, the image.</p></article>
+    <article><div class="limebar"></div><span class="idx">04</span><h3>Deploy</h3><p>A known version, to a named environment.</p></article>
+    <article><div class="limebar"></div><span class="idx">05</span><h3>Roll back</h3><p>The previous good release, on purpose.</p></article>
+  </div>
+  <p class="close">A red scan stops the merge. Waiving it is a decision, written down.</p>
+</section>
+
+<section class="slide paper" id="s9">
+  <div class="bar"></div>
+  <div class="top"><p class="kicker">Kendops</p><p class="num">09</p></div>
+  <h2 style="margin-top:18px">If you shipped it, you can see it.</h2>
+  <div class="grid3" style="margin-top:28px">
+    <article class="card"><span class="idx">01</span><h3>Metrics</h3><p class="label">Prometheus</p><p style="margin-top:10px">Rate, errors, and saturation. A number you can alert on.</p></article>
+    <article class="card"><span class="idx">02</span><h3>Logs</h3><p class="label">ELK or Loki</p><p style="margin-top:10px">One request, in order, with enough context to act.</p></article>
+    <article class="card"><span class="idx">03</span><h3>Traces</h3><p class="label">OpenTelemetry</p><p style="margin-top:10px">Where the time went, across every service it touched.</p></article>
+  </div>
+  <div class="grid3" style="margin-top:28px; border-top:1.5px solid var(--deep); padding-top:18px">
+    <article class="card"><h3>Grafana</h3><p>The board the team looks at together.</p></article>
+    <article class="card"><h3>Alertmanager</h3><p>Group, route, and silence. Page one owner.</p></article>
+    <article class="card"><h3>Runbook</h3><p>The alert says what to do next.</p></article>
+  </div>
+  <p class="close">A green deploy is not a healthy service.</p>
+</section>
+
+<section class="slide paper" id="s10">
+  <div class="bar"></div>
+  <div class="top"><p class="kicker">Kendops</p><p class="num">10</p></div>
+  <h2 style="margin-top:18px">AI drafts. People decide.</h2>
+  <div class="ai">
+    <div>
+      <div class="use"><strong>Code</strong><span>Explain a failure. Draft a test. Write the note the next person needs.</span></div>
+      <div class="use"><strong>Operations</strong><span>Group the logs. Name the likely cause. Do not page the room.</span></div>
+      <div class="use"><strong>Service</strong><span>Sort the request. Draft the reply. A person sends it.</span></div>
+      <div class="use"><strong>Release</strong><span>Write the notes from the commits that actually shipped.</span></div>
+    </div>
+    <div class="guard">
+      <p class="label">Guardrails</p>
+      <ol>
+        <li><span class="idx">01</span><span>Secrets never go into a prompt.</span></li>
+        <li><span class="idx">02</span><span>Production and destructive actions wait for approval.</span></li>
+        <li><span class="idx">03</span><span>Generated code and commands are read before they run.</span></li>
+        <li><span class="idx">04</span><span>Permissions are narrow. Actions are logged. Rollback exists.</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="slide dark" id="s11">
+  <div class="bar"></div>
+  <div class="top"><p class="kicker">Kendops</p><p class="num">11</p></div>
+  <h2 style="margin-top:18px; color:var(--white)">Follow one change.</h2>
+  <div class="grid3" style="margin-top:28px">
+    <article class="card"><span class="idx">01</span><h3 style="color:var(--white)">Commit</h3><p>A developer pushes to Git.</p></article>
+    <article class="card"><span class="idx">02</span><h3 style="color:var(--white)">Build and test</h3><p>The pipeline installs, tests, and scans.</p></article>
+    <article class="card"><span class="idx">03</span><h3 style="color:var(--white)">Plan</h3><p>Infrastructure changes are previewed.</p></article>
+    <article class="card"><span class="idx">04</span><h3 style="color:var(--white)">Deploy</h3><p>An approved release reaches test.</p></article>
+    <article class="card"><span class="idx">05</span><h3 style="color:var(--white)">Observe</h3><p>Metrics, logs, and traces. The page names an owner.</p></article>
+    <article class="card"><span class="idx">06</span><h3 style="color:var(--white)">Assist</h3><p>AI drafts the summary. An engineer signs it.</p></article>
+  </div>
+  <p class="lede" style="margin-top:auto">Version the work. Automate the checks.<br>Keep a human on the risk.</p>
+</section>
+
+</div>
+<nav class="nav" aria-label="Slides">
+  <button type="button" id="prev">Prev</button>
+  <output id="count">01 / 11</output>
+  <button type="button" id="next">Next</button>
+</nav>
+<script>
+(function () {
+  var deck = document.getElementById("deck");
+  var slides = Array.prototype.slice.call(deck.querySelectorAll(".slide"));
+  var count = document.getElementById("count");
+  function index() {
+    var y = deck.scrollTop + 8;
+    var i = 0;
+    slides.forEach(function (slide, n) { if (slide.offsetTop <= y) i = n; });
+    return i;
+  }
+  function go(n) {
+    n = Math.max(0, Math.min(slides.length - 1, n));
+    slides[n].scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  function paint() {
+    var n = index() + 1;
+    count.textContent = (n < 10 ? "0" : "") + n + " / 11";
+  }
+  document.getElementById("prev").addEventListener("click", function () { go(index() - 1); });
+  document.getElementById("next").addEventListener("click", function () { go(index() + 1); });
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "ArrowRight" || event.key === "PageDown" || event.key === " ") { event.preventDefault(); go(index() + 1); }
+    if (event.key === "ArrowLeft" || event.key === "PageUp") { event.preventDefault(); go(index() - 1); }
+  });
+  deck.addEventListener("scroll", paint, { passive: true });
+  if (location.hash) {
+    var target = document.querySelector(location.hash);
+    if (target) target.scrollIntoView();
+  }
+  paint();
+})();
+</script>
+</body>
+</html>
